@@ -1,7 +1,7 @@
-import React, { Component } from "react";
-import video from "./video.mp4";
-import styled from "styled-components";
-import Workspace from "./containers/Workspace";
+import React, { Component } from 'react';
+import video from './video.mp4';
+import styled from 'styled-components';
+import Workspace from './containers/Workspace';
 
 const Wrapper = styled.div`
   position: fixed;
@@ -29,19 +29,12 @@ class App extends Component {
       <>
         <Workspace />
         <Wrapper>
-          <video
-            width="100%"
-            height="auto"
-            preload="auto"
-            autoPlay="autoplay"
-            loop="loop"
-          >
+          <video width="100%" height="auto" preload="auto" autoPlay loop>
             <source src={video} type="video/mp4" />
           </video>
         </Wrapper>
       </>
     );
-
   }
 }
 
