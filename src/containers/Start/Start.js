@@ -18,7 +18,11 @@ class Start extends Component {
     return (
       <Wrapper visible={visible}>
         <Camera>
-          <VideoContainer getVideoInstance={this.setVideoManager} />
+          <VideoContainer
+            getVideoInstance={this.setVideoManager}
+            width="640px"
+            height="480px"
+          />
         </Camera>
         <Info>
           <div>

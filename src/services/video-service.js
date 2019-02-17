@@ -20,6 +20,10 @@ export class VideoService {
   gotStream = stream => {
     window.stream = stream;
     this.videoElement.srcObject = stream;
+    this.videoElement.onloadedmetadata = function() {
+      console.log('width is', this.videoWidth);
+      console.log('height is', this.videoHeight);
+    };
 
     return navigator.mediaDevices.enumerateDevices();
   };
