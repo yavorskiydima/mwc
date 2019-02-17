@@ -1,18 +1,22 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
 
-import { Container } from "./Components";
-import Start from "./Start/Start";
-import Loading from "./Loading/Loading";
-import Result from "./Result/Result";
+import { Container } from './Components';
+import Start from './Start/Start';
+import Loading from './Loading/Loading';
+import Result from './Result/Result';
 
 class Workspace extends Component {
   state = {
     openMenu: true,
     openLoader: false,
-    openResult: false
+    openResult: false,
   };
 
-  openLoader = () => {
+  openLoader = async video => {
+    // в video приходит экземпляр класса VideoService
+    const photo = await video.getPhoto();
+    console.log(photo);
+    video.stopMediaStream();
     this.setState({ openMenu: false, openLoader: true });
   };
   openMenu = () => {

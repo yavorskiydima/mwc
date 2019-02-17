@@ -4,6 +4,7 @@ export class VideoService {
   }
   startMediaStream = () => {
     this.stopMediaStream();
+
     navigator.mediaDevices
       .getUserMedia({ video: true })
       .then(this.gotStream)
