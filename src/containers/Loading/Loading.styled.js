@@ -21,7 +21,7 @@ export const Container = styled.div`
     }
   }
   animation: ${props =>
-    props.visible ? "up-size-load 1s 1s both" : "down-size-load 1s 1s both"};
+    props.visible ? "up-size-load 1s 1s both" : "down-size-load 1s both"};
   @keyframes up-size-load {
     0% {
       width: 0px;
@@ -29,16 +29,16 @@ export const Container = styled.div`
       margin: 0px;
     }
     100% {
-      width: 200px;
-      height: 200px;
-      margin: -100px 0 0 -100px;
+      width: 300px;
+      height: 300px;
+      margin: -150px 0 0 -150px;
     }
   }
   @keyframes down-size-load {
     0% {
-      width: 200px;
-      height: 200px;
-      margin: -100px 0 0 -100px;
+      width: 300px;
+      height: 300px;
+      margin: -150px 0 0 -150px;
     }
     100% {
       width: 0px;

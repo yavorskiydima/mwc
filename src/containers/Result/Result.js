@@ -1,15 +1,15 @@
 import React, { Component } from "react";
-import { Container } from "./Result.styled";
 import { Button } from "../Components";
+import {LeftSpace, RigthSpace, CommonContainer} from '../Common.styled';
 
 class Result extends Component {
   render() {
     const { visible, close } = this.props;
     return (
-      <Container visible={visible}>
-        <div>TEXT</div>
-        <Button onClick={close}>Закрыть</Button>
-      </Container>
+      <CommonContainer visible={visible}>
+        <LeftSpace>TEST</LeftSpace>
+        <RigthSpace><Button onClick={close}>Закрыть</Button></RigthSpace>
+      </CommonContainer>
     );
   }
 }

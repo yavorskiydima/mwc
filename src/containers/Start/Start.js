@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
-import { Wrapper, Camera, Info } from './Start.styled';
 import { Button } from '../Components';
 import { VideoContainer } from '../../components/VideoContainer';
-
-import web from '../../test/kenny.jpg';
+import {LeftSpace, RigthSpace, CommonContainer} from '../Common.styled';
 
 class Start extends Component {
   videoManager = {};
@@ -14,24 +12,24 @@ class Start extends Component {
     this.props.close(this.videoManager);
   };
   render() {
-    const { visible, close } = this.props;
+    const { visible } = this.props;
     return (
-      <Wrapper visible={visible}>
-        <Camera>
+      <CommonContainer visible={visible}>
+        <LeftSpace>
           <VideoContainer
             getVideoInstance={this.setVideoManager}
             width="640px"
             height="480px"
           />
-        </Camera>
-        <Info>
+        </LeftSpace>
+        <RigthSpace>
           <div>
             Тут будет какой-то текст про то что нужно посмотреть в камеру и
             нажать на кнопку
           </div>
           <Button onClick={this.handleClick}>ПОИСК</Button>
-        </Info>
-      </Wrapper>
+        </RigthSpace>
+      </CommonContainer>
     );
   }
 }
