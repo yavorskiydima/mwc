@@ -65,27 +65,22 @@ class Workspace extends Component {
     console.log("Совпадение с ", responseId);
     console.log("Текущий ", currentId);
     console.log("Шагов осталось ", step);
-    for (let i = 0; i < step; i++) {
-      setTimeout(
-        this.setState(state => ({
-          pos: state.pos.map((item, index) => {
-            const position =
-              index === state.nextLeftPos
-                ? "left"
-                : index === state.nextFrontPos
-                ? "front"
-                : index === state.nextRightPos
-                ? "right"
-                : "back";
-            return { ...item, position };
-          }),
-          nextLeftPos: ++state.nextLeftPos % state.pos.length,
-          nextFrontPos: ++state.nextFrontPos % state.pos.length,
-          nextRightPos: ++state.nextRightPos % state.pos.length
-        })),
-        400
-      );
-    }
+    this.setState(state => ({
+      pos: state.pos.map((item, index) => {
+        const position =
+          index === state.nextLeftPos
+            ? "left"
+            : index === state.nextFrontPos
+            ? "front"
+            : index === state.nextRightPos
+            ? "right"
+            : "back";
+        return { ...item, position };
+      }),
+      nextLeftPos: ++state.nextLeftPos % state.pos.length,
+      nextFrontPos: ++state.nextFrontPos % state.pos.length,
+      nextRightPos: ++state.nextRightPos % state.pos.length
+    }));
   };
 
   render() {
