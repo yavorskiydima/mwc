@@ -9,13 +9,15 @@ import obj from "../test/list";
 
 class Workspace extends Component {
   state = {
-    openMenu: false,
+    openMenu: true,
     openLoader: false,
     openResult: false,
     pos: obj,
     nextLeftPos: 1,
     nextFrontPos: 2,
-    nextRightPos: 3
+    nextRightPos: 3,
+    intervalId: null,
+    responseId: null
   };
 
   openLoader = async video => {
@@ -23,16 +25,8 @@ class Workspace extends Component {
     //const photo = await video.getPhoto();
     //console.log(photo);
     video.stopMediaStream();
-    this.setState({ openMenu: false, openLoader: true });
-  };
-  openMenu = () => {
-    this.setState({ openMenu: true, openResult: false });
-  };
-  openResult = () => {
-    this.setState({ openLoader: false, openResult: true });
-  };
-  change = () => {
-    this.interval = setInterval(() => {
+
+    const interval = setInterval(() => {
       this.setState(state => ({
         pos: state.pos.map((item, index) => {
           const position =
@@ -49,27 +43,50 @@ class Workspace extends Component {
         nextFrontPos: ++state.nextFrontPos % state.pos.length,
         nextRightPos: ++state.nextRightPos % state.pos.length
       }));
-    }, 200);
+    }, 400);
+
+    this.setState({ openMenu: false, openLoader: true, intervalId: interval });
+  };
+  openMenu = () => {
+    this.setState({ openMenu: true, openResult: false });
+  };
+  openResult = () => {
+    this.setState({ openLoader: false, openResult: true });
   };
 
-  changePos() {
-    this.setState(state => ({
-      pos: state.pos.map((item, index) => {
-        const position =
-          index === state.nextLeftPos
-            ? "left"
-            : index === state.nextFrontPos
-            ? "front"
-            : index === state.nextRightPos
-            ? "right"
-            : "back";
-        return { ...item, position };
-      }),
-      nextLeftPos: ++state.nextLeftPos % state.pos.length,
-      nextFrontPos: ++state.nextFrontPos % state.pos.length,
-      nextRightPos: ++state.nextRightPos % state.pos.length
-    }));
-  }
+  response = () => {
+    clearInterval(this.state.intervalId);
+    const responseId = Math.floor(Math.random() * this.state.pos.length);
+    const currentId = this.state.nextLeftPos;
+    const step =
+      responseId <= currentId
+        ? this.state.pos.length - currentId + responseId
+        : responseId - currentId;
+    console.log("Совпадение с ", responseId);
+    console.log("Текущий ", currentId);
+    console.log("Шагов осталось ", step);
+    for (let i = 0; i < step; i++) {
+      setTimeout(
+        this.setState(state => ({
+          pos: state.pos.map((item, index) => {
+            const position =
+              index === state.nextLeftPos
+                ? "left"
+                : index === state.nextFrontPos
+                ? "front"
+                : index === state.nextRightPos
+                ? "right"
+                : "back";
+            return { ...item, position };
+          }),
+          nextLeftPos: ++state.nextLeftPos % state.pos.length,
+          nextFrontPos: ++state.nextFrontPos % state.pos.length,
+          nextRightPos: ++state.nextRightPos % state.pos.length
+        })),
+        400
+      );
+    }
+  };
 
   render() {
     const { openMenu, openLoader, openResult } = this.state;
@@ -80,10 +97,10 @@ class Workspace extends Component {
             Имитиация получения ответа от сервера
           </button>
         )}
-        <button onClick={this.change}>Имитиfdfdfdfd</button>
-        <LoadingSlider pos={this.state.pos} />
+        <button onClick={this.change}>Запуск карусели</button>
+        <button onClick={this.response}>Как буд-то пришел ответ</button>
+        <LoadingSlider pos={this.state.pos} visible={openLoader} />
         <Start visible={openMenu} close={this.openLoader} />
-        <Loading visible={openLoader} />
         <Result visible={openResult} close={this.openMenu} />
       </Container>
     );

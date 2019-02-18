@@ -16,20 +16,20 @@ import pic15 from "./15.jpg";
 import pic16 from "./16.jpg";
 
 export default [
-  { name: "test1", pic: pic1, position: "left" },
-  { name: "test2", pic: pic2, position: "front" },
-  { name: "test3", pic: pic3, position: "right" },
-  { name: "test4", pic: pic4, position: "back" },
-  { name: "test5", pic: pic5, position: "back" },
-  { name: "test6", pic: pic6, position: "back" },
-  { name: "test7", pic: pic7, position: "back" },
-  { name: "test8", pic: pic8, position: "back" },
-  { name: "test9", pic: pic9, position: "back" },
-  { name: "test1", pic: pic10, position: "back" },
-  { name: "test7", pic: pic11, position: "back" },
-  { name: "test7", pic: pic12, position: "back" },
-  { name: "test7", pic: pic13, position: "back" },
-  { name: "test7", pic: pic14, position: "back" },
-  { name: "test7", pic: pic15, position: "back" },
-  { name: "test7", pic: pic16, position: "back" }
+  { name: "1", pic: pic1, position: "left" },
+  { name: "2", pic: pic2, position: "front" },
+  { name: "3", pic: pic3, position: "right" },
+  { name: "4", pic: pic4, position: "back" },
+  { name: "5", pic: pic5, position: "back" },
+  { name: "6", pic: pic6, position: "back" },
+  { name: "7", pic: pic7, position: "back" },
+  { name: "8", pic: pic8, position: "back" },
+  { name: "9", pic: pic9, position: "back" },
+  { name: "10", pic: pic10, position: "back" },
+  { name: "11", pic: pic11, position: "back" },
+  { name: "12", pic: pic12, position: "back" },
+  { name: "13", pic: pic13, position: "back" },
+  { name: "14", pic: pic14, position: "back" },
+  { name: "15", pic: pic15, position: "back" },
+  { name: "16", pic: pic16, position: "back" }
 ];

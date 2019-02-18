@@ -30,13 +30,15 @@ export const Container = styled.div`
   position: absolute;
   top: 50%;
   left: 50%;
+  opacity: ${props => (props.visible ? "1" : "0")};
+  transition: all 1s linear 1s;
 `;
 
 export const Block = styled.div`
   position: absolute;
   width: ${width}px;
   height: ${height}px;
-  transition: all 0.2s linear;
+  transition: all 0.4s linear;
   margin: ${props => pos[props.position].margin};
   transform: ${props => pos[props.position].transform};
   z-index: ${props => pos[props.position]["z-index"]};
