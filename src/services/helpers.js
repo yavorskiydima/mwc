@@ -22,3 +22,14 @@ export function b64DecodeUnicode(str) {
       .join(''),
   );
 }
+export function pFileReader(file){
+  return new Promise((resolve, reject) => {
+    const fr = new FileReader();  
+        fr.readAsDataURL(file);
+        fr.onloadend =() => {
+          const result = fr.result;
+         
+          resolve(result);}  
+  })
+}
+

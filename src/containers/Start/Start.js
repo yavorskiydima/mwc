@@ -4,17 +4,28 @@ import { Button } from '../Components';
 import { VideoContainer } from '../../components/VideoContainer';
 
 import web from '../../test/kenny.jpg';
+import {RestApi} from '../../services/rest-service'
 
 class Start extends Component {
   videoManager = {};
+  state ={
+    statistic: ''
+  }
   setVideoManager = video => {
     this.videoManager = video;
   };
+  componentDidMount() {
+    const api = new RestApi();
+    api.getStatistic().then(
+      r => this.setState({statistic: JSON.stringify(r)})
+    )
+  }
   handleClick = () => {
     this.props.close(this.videoManager);
   };
   render() {
     const { visible, close } = this.props;
+    const {statistic} = this.state;
     return (
       <Wrapper visible={visible}>
         <Camera>
@@ -26,8 +37,7 @@ class Start extends Component {
         </Camera>
         <Info>
           <div>
-            Тут будет какой-то текст про то что нужно посмотреть в камеру и
-            нажать на кнопку
+            {statistic}
           </div>
           <Button onClick={this.handleClick}>ПОИСК</Button>
         </Info>

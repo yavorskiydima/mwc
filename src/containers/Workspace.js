@@ -4,6 +4,7 @@ import { Container } from './Components';
 import Start from './Start/Start';
 import Loading from './Loading/Loading';
 import Result from './Result/Result';
+import { RestApi } from '../services/rest-service';
 
 class Workspace extends Component {
   state = {
@@ -11,12 +12,18 @@ class Workspace extends Component {
     openLoader: false,
     openResult: false,
   };
+  constructor(props) {
+    super(props);
+    this.api = new RestApi();
 
+  }
   openLoader = async video => {
     // в video приходит экземпляр класса VideoService
-    const photo = await video.getPhoto();
-    console.log(photo);
-    video.stopMediaStream();
+    const photo = await video.getPhoto();    
+    const resp = await this.api.sendPhoto(photo);
+    // response at back
+    console.log(resp);
+    
     this.setState({ openMenu: false, openLoader: true });
   };
   openMenu = () => {
