@@ -97,7 +97,6 @@ class Workspace extends Component {
             Имитиация получения ответа от сервера
           </button>
         )}
-        <button onClick={this.change}>Запуск карусели</button>
         <button onClick={this.response}>Как буд-то пришел ответ</button>
         <LoadingSlider pos={this.state.pos} visible={openLoader} />
         <Start visible={openMenu} close={this.openLoader} />
