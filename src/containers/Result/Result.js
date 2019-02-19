@@ -1,15 +1,18 @@
 import React, { Component } from "react";
 import { Button } from "../Components";
-import {LeftSpace, RigthSpace, CommonContainer} from '../Common.styled';
+import { Container } from "./Result.styled";
+import { LeftSpace, RigthSpace } from "../Common.styled";
 
 class Result extends Component {
   render() {
-    const { visible, close } = this.props;
+    const { visible, close, data } = this.props;
     return (
-      <CommonContainer visible={visible}>
-        <LeftSpace>TEST</LeftSpace>
-        <RigthSpace><Button onClick={close}>Закрыть</Button></RigthSpace>
-      </CommonContainer>
+      <Container visible={visible}>
+        <LeftSpace>{data && <img src={data.pic} alt="EW" />}</LeftSpace>
+        <RigthSpace>
+          <Button onClick={close}>Закрыть</Button>
+        </RigthSpace>
+      </Container>
     );
   }
 }
