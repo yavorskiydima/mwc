@@ -13,8 +13,8 @@ class Result extends Component {
         <RigthSpace>
           <StyledButton
             invert
-            firstColor="#003366"
-            secondColor="#001a33"
+            firstColor="#8f1e59"
+            secondColor="#66153f"
             backIcon
             onClick={close}
             text="return back"
