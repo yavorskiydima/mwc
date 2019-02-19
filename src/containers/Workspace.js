@@ -1,21 +1,11 @@
 import React, { Component } from 'react';
 
-<<<<<<< HEAD
-import { Container } from "./Components";
-import Start from "./Start/Start";
-import { RestApi } from "../services/rest-service";
-import Result from "./Result/Result";
-import LoadingSlider from "./LoadingSlider/LoadingSlider";
-import obj from "../test/list";
-=======
 import { Container } from './Components';
 import Start from './Start/Start';
-import Loading from './Loading/Loading';
+import { RestApi } from '../services/rest-service';
 import Result from './Result/Result';
 import LoadingSlider from './LoadingSlider/LoadingSlider';
 import obj from '../test/list';
-import { RestApi } from '../services/rest-service';
->>>>>>> add Space
 
 class Workspace extends Component {
   state = {
@@ -31,7 +21,7 @@ class Workspace extends Component {
   };
   constructor(props) {
     super(props);
-    this.api = new RestApi();
+    // this.api = new RestApi();
   }
   openLoader = async video => {
     // в video приходит экземпляр класса VideoService
@@ -74,7 +64,7 @@ class Workspace extends Component {
 
   response = () => {
     this.setState({
-      responseId: Math.floor(Math.random() * this.state.pos.length)
+      responseId: Math.floor(Math.random() * this.state.pos.length),
     });
   };
 

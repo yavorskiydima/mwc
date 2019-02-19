@@ -1,5 +1,7 @@
-import React, { PureComponent } from 'react';
+import React from 'react';
 import styled from 'styled-components';
+import camera from './photo-camera.svg';
+import ok from './ok.svg';
 
 const speed = '0.25s';
 const defSettings = {
@@ -10,7 +12,7 @@ const defSettings = {
 
 const ButtonWrapper = styled.a`
   display: block;
-  background-color: ${defSettings.color};
+  background-color: ${({ firstColor }) => firstColor || defSettings.color};
   width: 300px;
   height: 100px;
   line-height: 100px;
@@ -25,22 +27,65 @@ const ButtonWrapper = styled.a`
   overflow: hidden;
   border-radius: 5px;
   box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.3);
-  transition: all ${speed} cubic-bezier(0.31, -0.105, 0.43, 1.4);
-  ${Span},
-  ${Icon} {
+  transition: ${defSettings.transition};
+
+  span,
+  .icon {
     display: block;
     height: 100%;
     text-align: center;
     position: absolute;
     top: 0;
   }
+
+  span {
+    width: 72%;
+    line-height: inherit;
+    font-size: 22px;
+    text-transform: uppercase;
+    left: 0;
+    transition: ${defSettings.transition};
+
+    &:after {
+      content: '';
+      background-color: ${({ secondColor }) =>
+        secondColor || defSettings.colorDark};
+      width: 2px;
+      height: 70%;
+      position: absolute;
+      top: 15%;
+      right: -1px;
+    }
+  }
+
+  .icon {
+    width: 28%;
+    right: 0;
+    transition: ${defSettings.transition};
+
+    .fa {
+      font-size: 30px;
+      vertical-align: middle;
+      transition: ${defSettings.transition}, height ${speed} ease;
+    }
+
+    .fa-remove {
+      height: 36px;
+    }
+
+    .fa-check {
+      display: none;
+    }
+  }
+
+  &.success,
   &:hover {
-    ${Span} {
+    span {
       left: -72%;
       opacity: 0;
     }
 
-    ${Icon} {
+    .icon {
       width: 100%;
 
       .fa {
@@ -48,10 +93,11 @@ const ButtonWrapper = styled.a`
       }
     }
   }
+
   &.success {
     background-color: #27ae60;
 
-    ${Icon} {
+    .icon {
       .fa-remove {
         display: none;
       }
@@ -65,7 +111,7 @@ const ButtonWrapper = styled.a`
   &:hover {
     opacity: 0.9;
 
-    ${Icon} .fa-remove {
+    .icon .fa-remove {
       height: 46px;
     }
   }
@@ -74,52 +120,24 @@ const ButtonWrapper = styled.a`
     opacity: 1;
   }
 `;
-const Icon = styled.div`
-  width: 28%;
-  right: 0;
-  transition: ${defSettings.transition};
-  .fa {
-    font-size: 30px;
-    vertical-align: middle;
-    transition: ${defSettings.transition}, height ${speed} ease;
-  }
-
-  .fa-remove {
-    height: 36px;
-  }
-
-  .fa-check {
-    display: none;
-  }
-`;
-const Span = styled.span`
-  width: 72%;
-  line-height: inherit;
-  font-size: 22px;
-  text-transform: uppercase;
-  left: 0;
-  transition: ${defSettings.transition};
-
-  &:after {
-    content: '';
-    background-color: ${defSettings.colorDark};
-    width: 2px;
-    height: 70%;
-    position: absolute;
-    top: 15%;
-    right: -1px;
-  }
-`;
 
 const Button = props => {
+  const { success, text, ...otherProps } = props;
   return (
-    <ButtonWrapper href="#" role="button">
-      <Span>remove</Span>
-      <Icon>
-        <span class="fa fa-remove">sdfsdf</span>
-        <i class="fa fa-check" />
-      </Icon>
-    </ButtonWrapper>
+    <div style={{ position: 'relative', width: '100%' }}>
+      <ButtonWrapper
+        href="#"
+        role="button"
+        className={success ? 'success' : ''}
+        {...otherProps}
+      >
+        <span>{text}</span>
+        <div className="icon">
+          <img className="fa fa-remove" src={camera} alt="camera" />
+          <img className="fa fa-check" src={ok} alt="ok" />
+        </div>
+      </ButtonWrapper>
+    </div>
   );
 };
 export default Button;
