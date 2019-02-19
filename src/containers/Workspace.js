@@ -1,11 +1,21 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
 
+<<<<<<< HEAD
 import { Container } from "./Components";
 import Start from "./Start/Start";
 import { RestApi } from "../services/rest-service";
 import Result from "./Result/Result";
 import LoadingSlider from "./LoadingSlider/LoadingSlider";
 import obj from "../test/list";
+=======
+import { Container } from './Components';
+import Start from './Start/Start';
+import Loading from './Loading/Loading';
+import Result from './Result/Result';
+import LoadingSlider from './LoadingSlider/LoadingSlider';
+import obj from '../test/list';
+import { RestApi } from '../services/rest-service';
+>>>>>>> add Space
 
 class Workspace extends Component {
   state = {
@@ -17,7 +27,7 @@ class Workspace extends Component {
     nextFrontPos: 2,
     nextRightPos: 3,
     intervalId: null,
-    responseId: null
+    responseId: null,
   };
   constructor(props) {
     super(props);
@@ -35,17 +45,17 @@ class Workspace extends Component {
         pos: state.pos.map((item, index) => {
           const position =
             index === state.nextLeftPos
-              ? "left"
+              ? 'left'
               : index === state.nextFrontPos
-              ? "front"
+              ? 'front'
               : index === state.nextRightPos
-              ? "right"
-              : "back";
+              ? 'right'
+              : 'back';
           return { ...item, position };
         }),
         nextLeftPos: ++state.nextLeftPos % state.pos.length,
         nextFrontPos: ++state.nextFrontPos % state.pos.length,
-        nextRightPos: ++state.nextRightPos % state.pos.length
+        nextRightPos: ++state.nextRightPos % state.pos.length,
       }));
       if (this.state.nextLeftPos === this.state.responseId) {
         clearInterval(this.state.intervalId);
