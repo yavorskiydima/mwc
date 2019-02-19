@@ -6,7 +6,6 @@ import { LeftSpace, RigthSpace } from "../Common.styled";
 class Result extends Component {
   render() {
     const { visible, close, data } = this.props;
-    console.log(data);
     return (
       <Container visible={visible}>
         <LeftSpace>{data && <img src={data.pic} alt="EW" />}</LeftSpace>
