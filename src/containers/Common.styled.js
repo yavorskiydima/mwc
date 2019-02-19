@@ -2,7 +2,8 @@ import styled from 'styled-components';
 
 export const CommonContainer = styled.div`
   position: absolute;
-  background-image: url(/img/shattered-island.gif);
+  background: mediumslateblue url(/img/shattered-island.gif);
+  background-blend-mode: hard-light;
   opacity: 0.8;
   border-radius: 10px;
   overflow: hidden;
