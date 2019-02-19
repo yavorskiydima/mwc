@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
-import { Wrapper, Camera, Info } from './Start.styled';
 import { Button } from '../Components';
 import { VideoContainer } from '../../components/VideoContainer';
-
-import web from '../../test/kenny.jpg';
+import {LeftSpace, RigthSpace, CommonContainer} from '../Common.styled';
 import {RestApi} from '../../services/rest-service'
+
 
 class Start extends Component {
   videoManager = {};
@@ -26,22 +25,23 @@ class Start extends Component {
   render() {
     const { visible, close } = this.props;
     const {statistic} = this.state;
+
     return (
-      <Wrapper visible={visible}>
-        <Camera>
+      <CommonContainer visible={visible}>
+        <LeftSpace>
           <VideoContainer
             getVideoInstance={this.setVideoManager}
             width="640px"
             height="480px"
           />
-        </Camera>
-        <Info>
+        </LeftSpace>
+        <RigthSpace>
           <div>
             {statistic}
           </div>
           <Button onClick={this.handleClick}>ПОИСК</Button>
-        </Info>
-      </Wrapper>
+        </RigthSpace>
+      </CommonContainer>
     );
   }
 }
