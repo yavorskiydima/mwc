@@ -7,6 +7,7 @@ const speed = '0.25s';
 const defSettings = {
   color: '#c0392b',
   colorDark: '#a53125',
+  colorSuccess: '#27ae60',
   transition: `all ${speed} cubic-bezier(0.310, -0.105, 0.430, 1.400)`,
 };
 
@@ -95,7 +96,8 @@ const ButtonWrapper = styled.a`
   }
 
   &.success {
-    background-color: #27ae60;
+    background-color: ${({ colorSucces }) =>
+      colorSucces || defSettings.colorSuccess};
 
     .icon {
       .fa-remove {
