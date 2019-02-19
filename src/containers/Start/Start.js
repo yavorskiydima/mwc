@@ -1,30 +1,29 @@
-import React, { Component } from 'react';
-import { Button } from '../Components';
-import { VideoContainer } from '../../components/VideoContainer';
-import {LeftSpace, RigthSpace, CommonContainer} from '../Common.styled';
-import {RestApi} from '../../services/rest-service'
-
+import React, { Component } from "react";
+import { Button } from "../Components";
+import { VideoContainer } from "../../components/VideoContainer";
+import { LeftSpace, RigthSpace, CommonContainer } from "../Common.styled";
+import { RestApi } from "../../services/rest-service";
 
 class Start extends Component {
   videoManager = {};
-  state ={
-    statistic: ''
-  }
+  state = {
+    statistic: ""
+  };
   setVideoManager = video => {
     this.videoManager = video;
   };
   componentDidMount() {
     const api = new RestApi();
-    api.getStatistic().then(
-      r => this.setState({statistic: JSON.stringify(r)})
-    )
+    api
+      .getStatistic()
+      .then(r => this.setState({ statistic: JSON.stringify(r) }));
   }
   handleClick = () => {
     this.props.close(this.videoManager);
   };
   render() {
-    const { visible, close } = this.props;
-    const {statistic} = this.state;
+    const { visible } = this.props;
+    const { statistic } = this.state;
 
     return (
       <CommonContainer visible={visible}>
@@ -36,9 +35,7 @@ class Start extends Component {
           />
         </LeftSpace>
         <RigthSpace>
-          <div>
-            {statistic}
-          </div>
+          <div>{statistic}</div>
           <Button onClick={this.handleClick}>ПОИСК</Button>
         </RigthSpace>
       </CommonContainer>

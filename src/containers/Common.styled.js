@@ -1,12 +1,14 @@
 import styled from "styled-components";
 
-export const CommonContainer= styled.div`
+export const CommonContainer = styled.div`
   position: absolute;
-  background: linear-gradient(135deg, #3f4c6b 10%,#3f4c6b 10%,#606c88 90%);
+  background: linear-gradient(135deg, #3f4c6b 10%, #3f4c6b 10%, #606c88 90%);
   border-radius: 10px;
   overflow: hidden;
   display: flex;
-  animation: ${props => props.visible ? "up-size 1s 1s both" : "down-size 1s both"};
+  z-index: 4;
+  animation: ${props =>
+    props.visible ? "up-size 1s 1s both" : "down-size 1s both"};
   @keyframes down-size {
     0% {
       width: 60%;
@@ -24,7 +26,7 @@ export const CommonContainer= styled.div`
       left: 50%;
       padding: 0px;
       border: none;
-      opacity: 0
+      opacity: 0;
     }
   }
 
@@ -36,7 +38,7 @@ export const CommonContainer= styled.div`
       left: 50%;
       padding: 0px;
       border: none;
-      opacity: 0
+      opacity: 0;
     }
     100% {
       width: 60%;
@@ -46,7 +48,7 @@ export const CommonContainer= styled.div`
       padding: 10px;
       border: 2px solid whitesmoke;
       opacity: 1;
-      }
+    }
   }
 `;
 

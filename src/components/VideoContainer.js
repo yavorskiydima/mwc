@@ -1,6 +1,6 @@
-import React, { Component } from 'react';
-import { Video, Container } from './styled-components';
-import { VideoService } from '../services/video-service';
+import React, { Component } from "react";
+import { Video } from "./styled-components";
+import { VideoService } from "../services/video-service";
 
 export class VideoContainer extends Component {
   constructor(props) {
@@ -12,7 +12,7 @@ export class VideoContainer extends Component {
 
     this.videoInstance = new VideoService(this.videoRef.current);
     this.videoInstance.startMediaStream();
-    typeof getVideoInstance === 'function' &&
+    typeof getVideoInstance === "function" &&
       getVideoInstance(this.videoInstance);
   }
   componentWillUnmount() {
