@@ -1,14 +1,17 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 export const CommonContainer = styled.div`
   position: absolute;
-  background: linear-gradient(135deg, #3f4c6b 10%, #3f4c6b 10%, #606c88 90%);
+  background-image: url(/img/shattered-island.gif);
+  opacity: 0.8;
   border-radius: 10px;
   overflow: hidden;
   display: flex;
   z-index: 4;
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.4),
+    inset 0 -10px 20px rgba(255, 255, 255, 0.3);
   animation: ${props =>
-    props.visible ? "up-size 1s 1s both" : "down-size 1s both"};
+    props.visible ? 'up-size 1s 1s both' : 'down-size 1s both'};
   @keyframes down-size {
     0% {
       width: 60%;
