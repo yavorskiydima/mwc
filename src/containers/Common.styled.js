@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 export const CommonContainer = styled.div`
   position: absolute;
@@ -8,49 +8,33 @@ export const CommonContainer = styled.div`
   overflow: hidden;
   display: flex;
   z-index: 4;
+  width: 60%;
+  height: 60%;
+  top: 20%;
+  left: 20%;
+  padding: 10px;
+  border: 2px solid whitesmoke;
   box-shadow: 0 0 20px rgba(255, 255, 255, 0.4),
     inset 0 -10px 20px rgba(255, 255, 255, 0.3);
   animation: ${props =>
-    props.visible ? 'up-size 1s 1s both' : 'down-size 1s both'};
+    props.visible ? "up-size 1s 1s both" : "down-size 1s both"};
   @keyframes down-size {
     0% {
-      width: 60%;
-      height: 60%;
-      top: 20%;
-      left: 20%;
-      padding: 10px;
-      border: 2px solid whitesmoke;
-      opacity: 1;
+      transform: scale(1);
     }
     100% {
-      width: 0px;
-      height: 0px;
-      top: 50%;
-      left: 50%;
-      padding: 0px;
-      border: none;
+      transform: scale(0);
       opacity: 0;
     }
   }
 
   @keyframes up-size {
     0% {
-      width: 0px;
-      height: 0px;
-      top: 50%;
-      left: 50%;
-      padding: 0px;
-      border: none;
+      transform: scale(0);
       opacity: 0;
     }
     100% {
-      width: 60%;
-      height: 60%;
-      top: 20%;
-      left: 20%;
-      padding: 10px;
-      border: 2px solid whitesmoke;
-      opacity: 1;
+      transform: scale(1);
     }
   }
 `;
