@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 
+
 import { Container } from "./Components";
 import Start from "./Start/Start";
 import Loading from "./Loading/Loading";
@@ -19,9 +20,14 @@ class Workspace extends Component {
     intervalId: null,
     responseId: null
   };
+  constructor(props) {
+    super(props);
+    this.api = new RestApi();
 
+  }
   openLoader = async video => {
     // в video приходит экземпляр класса VideoService
+
     //const photo = await video.getPhoto();
     //console.log(photo);
     video.stopMediaStream();

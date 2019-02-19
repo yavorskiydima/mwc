@@ -2,17 +2,30 @@ import React, { Component } from 'react';
 import { Button } from '../Components';
 import { VideoContainer } from '../../components/VideoContainer';
 import {LeftSpace, RigthSpace, CommonContainer} from '../Common.styled';
+import {RestApi} from '../../services/rest-service'
+
 
 class Start extends Component {
   videoManager = {};
+  state ={
+    statistic: ''
+  }
   setVideoManager = video => {
     this.videoManager = video;
   };
+  componentDidMount() {
+    const api = new RestApi();
+    api.getStatistic().then(
+      r => this.setState({statistic: JSON.stringify(r)})
+    )
+  }
   handleClick = () => {
     this.props.close(this.videoManager);
   };
   render() {
-    const { visible } = this.props;
+    const { visible, close } = this.props;
+    const {statistic} = this.state;
+
     return (
       <CommonContainer visible={visible}>
         <LeftSpace>
@@ -24,8 +37,7 @@ class Start extends Component {
         </LeftSpace>
         <RigthSpace>
           <div>
-            Тут будет какой-то текст про то что нужно посмотреть в камеру и
-            нажать на кнопку
+            {statistic}
           </div>
           <Button onClick={this.handleClick}>ПОИСК</Button>
         </RigthSpace>
