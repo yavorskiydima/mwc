@@ -48,7 +48,6 @@ export const CommonContainer = styled.div`
       height: 60%;
       top: 20%;
       left: 20%;
-      padding: 10px;
       border: 2px solid whitesmoke;
       opacity: 1;
     }
@@ -68,7 +67,6 @@ export const LeftSpace = styled.div`
 `;
 export const RigthSpace = styled.div`
   box-sizing: border-box;
-  border-left: 2px solid whitesmoke;
   width: 40%;
   height: 100%;
   padding: 10px;
@@ -77,4 +75,5 @@ export const RigthSpace = styled.div`
   justify-content: space-around;
   align-items: center;
   text-align: center;
+  background: rgba(0, 0, 0, 0.6);
 `;

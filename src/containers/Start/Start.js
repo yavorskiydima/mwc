@@ -46,6 +46,9 @@ class Start extends Component {
           <div>{statistic}</div>
           {/* <Button onClick={this.handleClick}>ПОИСК</Button> */}
           <StyledButton
+            firstColor="#30d5c8"
+            secondColor="#24b3a7"
+            invert
             onClick={this.onSuccess}
             text="create photo"
             success={isSuccess}
