@@ -1,2 +1,2 @@
 export { Video } from './Video';
-export { Container } from './Container';
+export { Space } from './Space';
