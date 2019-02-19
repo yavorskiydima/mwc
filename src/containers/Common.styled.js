@@ -49,6 +49,9 @@ export const LeftSpace = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  img {
+    width: 100%;
+  }
 `;
 export const RigthSpace = styled.div`
   box-sizing: border-box;
