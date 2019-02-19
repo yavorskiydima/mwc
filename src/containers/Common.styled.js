@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 export const CommonContainer = styled.div`
   position: absolute;
@@ -13,12 +13,11 @@ export const CommonContainer = styled.div`
   height: 60%;
   top: 20%;
   left: 20%;
-  padding: 10px;
   border: 2px solid whitesmoke;
   box-shadow: 0 0 20px rgba(255, 255, 255, 0.4),
     inset 0 -10px 20px rgba(255, 255, 255, 0.3);
   animation: ${props =>
-    props.visible ? "up-size 1s 1s both" : "down-size 1s both"};
+    props.visible ? 'up-size 1s 1s both' : 'down-size 1s both'};
   @keyframes down-size {
     0% {
       transform: scale(1);
