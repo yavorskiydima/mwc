@@ -65,17 +65,12 @@ class Workspace extends Component {
     this.setState({ openLoader: false, openResult: true, intervalId: null });
   };
 
-  response = () => {
-    this.setState({
-      responseId: Math.floor(Math.random() * this.state.pos.length)
-    });
-  };
+ 
 
   render() {
     const { openMenu, openLoader, openResult, responseId } = this.state;
     return (
-      <Container>
-        <button onClick={this.response}>Имитация ответа от бэка{responseId}</button>
+      <Container>        
         <Start visible={openMenu} close={this.openLoader} />
         <LoadingSlider pos={this.state.pos} visible={openLoader} />
         <Result
