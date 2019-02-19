@@ -1,7 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
+
 import camera from './photo-camera.svg';
 import ok from './ok.svg';
+import back from './back.svg';
 
 const speed = '0.25s';
 const defSettings = {
@@ -27,7 +29,9 @@ const ButtonWrapper = styled.a`
   cursor: pointer;
   overflow: hidden;
   border-radius: 5px;
-  box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.3);
+  box-shadow: 0 0 20px 0
+    ${({ invert }) =>
+      invert ? 'rgba(255, 255, 255, 0.3)' : 'rgba(0, 0, 0, 0.3)'};
   transition: ${defSettings.transition};
 
   span,
@@ -124,7 +128,8 @@ const ButtonWrapper = styled.a`
 `;
 
 const Button = props => {
-  const { success, text, ...otherProps } = props;
+  const { success, text, backIcon, ...otherProps } = props;
+  const currIcon = backIcon ? back : camera;
   return (
     <div style={{ position: 'relative', width: '100%' }}>
       <ButtonWrapper
@@ -135,7 +140,7 @@ const Button = props => {
       >
         <span>{text}</span>
         <div className="icon">
-          <img className="fa fa-remove" src={camera} alt="camera" />
+          <img className="fa fa-remove" src={currIcon} alt="camera" />
           <img className="fa fa-check" src={ok} alt="ok" />
         </div>
       </ButtonWrapper>

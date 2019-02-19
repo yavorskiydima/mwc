@@ -2,7 +2,8 @@ import styled from "styled-components";
 
 export const CommonContainer = styled.div`
   position: absolute;
-  background-image: url(/img/shattered-island.gif);
+  background: mediumslateblue url(/img/shattered-island.gif);
+  background-blend-mode: hard-light;
   opacity: 0.8;
   border-radius: 10px;
   overflow: hidden;
@@ -55,7 +56,6 @@ export const LeftSpace = styled.div`
 `;
 export const RigthSpace = styled.div`
   box-sizing: border-box;
-  border-left: 2px solid whitesmoke;
   width: 40%;
   height: 100%;
   padding: 10px;
@@ -64,4 +64,5 @@ export const RigthSpace = styled.div`
   justify-content: space-around;
   align-items: center;
   text-align: center;
+  background: rgba(0, 0, 0, 0.6);
 `;
