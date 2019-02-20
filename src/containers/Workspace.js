@@ -43,8 +43,9 @@ class Workspace extends Component {
       const photo = await video.getPhoto();
       const result = await this.api.sendPhoto(photo);
 
-      const pos = this.state.pos.findIndex(i => i.name === result.uniq_key);
-      result && result.uniq_key && this.setState({ responseId: pos });
+      const uniqPosition = this.state.pos.findIndex(i => i.key === result.uniq_key);
+      console.log({uniqPosition, })
+      result && result.uniq_key && this.setState({ responseId: uniqPosition });
 
       let displayResult = false;
 
