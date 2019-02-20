@@ -1,7 +1,7 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 # ide
 .vscode
-
+.idea
 # dependencies
 /node_modules
 /.pnp
@@ -13,7 +13,7 @@
 # production
 /build
 
-/backend/Photos
+/backend/Photos/*.jpg
 
 # misc
 .DS_Store
