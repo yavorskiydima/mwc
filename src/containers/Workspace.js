@@ -34,15 +34,18 @@ class Workspace extends Component {
   };
   constructor(props) {
     super(props);
-    // this.api = new RestApi();
+    this.api = new RestApi();
   }
 
   openLoader = async video => {
     // в video приходит экземпляр класса VideoService
 
-    //const photo = await video.getPhoto();
-    //console.log(photo);
-    video.stopMediaStream();
+    const photo = await video.getPhoto();
+    const result = await this.api.sendPhoto(photo);
+    
+    const pos = this.state.pos.findIndex(i=>i.name === result.uniq_key )
+    result &&  result.uniq_key && this.setState({responseId: pos });
+    
 
     const interval = setInterval(() => {
       this.setState(state => ({
@@ -76,17 +79,12 @@ class Workspace extends Component {
     this.setState({ openLoader: false, openResult: true, intervalId: null });
   };
 
-  response = () => {
-    this.setState({
-      responseId: Math.floor(Math.random() * this.state.pos.length)
-    });
-  };
+ 
 
   render() {
     const { openMenu, openLoader, openResult, responseId } = this.state;
     return (
-      <Container>
-        <button onClick={this.response}>Имитация ответа от бэка</button>
+      <Container>        
         <Start visible={openMenu} close={this.openLoader} />
         <LoadingSlider pos={this.state.pos} visible={openLoader} />
         <Result
