@@ -3,11 +3,11 @@ import { Container, Block } from "./LoadingSlider.styled";
 
 class LoadingSlider extends Component {
   render() {
-    const { visible } = this.props;
+    const { visible, delay } = this.props;
     return (
       <Container visible={visible}>
         {this.props.pos.map((item, i) => (
-          <Block position={item.position} key={i}>
+          <Block position={item.position} key={i} delay={delay}>
             <img src={item.pic} alt="EW" />{" "}
           </Block>
         ))}
