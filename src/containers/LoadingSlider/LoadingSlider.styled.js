@@ -41,7 +41,8 @@ export const Block = styled.div`
     inset 0 -10px 20px rgba(255, 255, 255, 0.3);
   width: ${width}px;
   height: ${height}px;
-  transition: all 0.7s linear;
+  #transition: all 0.7s linear;
+  transition: all ${props => props.delay / 1000}s linear;
   margin: -150px 0 0 -150px;
   will-change: transform;
   transform: ${props => pos[props.position].transform};
