@@ -42,10 +42,11 @@ class Workspace extends Component {
 
     const photo = await video.getPhoto();
     const result = await this.api.sendPhoto(photo);
-    
-    const pos = this.state.pos.findIndex(i=>i.name === result.uniq_key )
-    result &&  result.uniq_key && this.setState({responseId: pos });
-    
+
+    const pos = this.state.pos.findIndex(i => i.name === result.uniq_key);
+    result && result.uniq_key && this.setState({ responseId: pos });
+
+    let displayResult = false;
 
     const interval = setInterval(() => {
       this.setState(state => ({
@@ -64,12 +65,13 @@ class Workspace extends Component {
         nextFrontPos: ++state.nextFrontPos % state.pos.length,
         nextRightPos: ++state.nextRightPos % state.pos.length
       }));
-      if (this.state.nextLeftPos === this.state.responseId) {
+      if (displayResult && this.state.nextLeftPos === this.state.responseId) {
         clearInterval(this.state.intervalId);
         this.openResult();
       }
     }, 700);
 
+    setTimeout(() => (displayResult = true), 5000);
     this.setState({ openMenu: false, openLoader: true, intervalId: interval });
   };
   openMenu = () => {
@@ -79,12 +81,10 @@ class Workspace extends Component {
     this.setState({ openLoader: false, openResult: true, intervalId: null });
   };
 
- 
-
   render() {
     const { openMenu, openLoader, openResult, responseId } = this.state;
     return (
-      <Container>        
+      <Container>
         <Start visible={openMenu} close={this.openLoader} />
         <LoadingSlider pos={this.state.pos} visible={openLoader} />
         <Result
