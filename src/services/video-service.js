@@ -1,10 +1,11 @@
 export class VideoService {
+  error = false;
   constructor(refVideo) {
     this.videoElement = refVideo;
   }
   startMediaStream = () => {
     this.stopMediaStream();
-
+    this.error = false;
     navigator.mediaDevices
       .getUserMedia({ video: true })
       .then(this.gotStream)
@@ -33,5 +34,8 @@ export class VideoService {
 
     return imageCapture.takePhoto().then(blob => blob);
   };
-  handleError = err => console.log('StartMediaStream: ', err);
+  handleError = err => {
+    this.error = true;
+    console.log('StartMediaStream: ', err);
+  };
 }
