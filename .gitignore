@@ -13,6 +13,8 @@
 # production
 /build
 
+/backend/Photos
+
 # misc
 .DS_Store
 .env.local

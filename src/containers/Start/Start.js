@@ -43,8 +43,8 @@ class Start extends Component {
         <LeftSpace>
           <VideoContainer
             getVideoInstance={this.setVideoManager}
-            width="640px"
-            height="480px"
+            width="520px"
+            height="390px"
           />
         </LeftSpace>
         <RigthSpace>

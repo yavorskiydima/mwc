@@ -43,7 +43,7 @@ class Workspace extends Component {
     if (!video.error) {
       const photo = await video.getPhoto();
       const result = await this.api.sendPhoto(photo);
-
+console.log(result);
       const uniqPosition = this.state.pos.findIndex(
         i => i.key === result.uniq_key
       );
