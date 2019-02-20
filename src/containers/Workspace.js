@@ -5,14 +5,27 @@ import Start from "./Start/Start";
 import { RestApi } from "../services/rest-service";
 import Result from "./Result/Result";
 import LoadingSlider from "./LoadingSlider/LoadingSlider";
-import obj from "../test/list";
+import data from "../test/list";
 
 class Workspace extends Component {
   state = {
     openMenu: true,
     openLoader: false,
     openResult: false,
-    pos: obj,
+    pos: data.map((item, index) => {
+      const position =
+        index === 0
+          ? "left"
+          : index === 1
+          ? "front"
+          : index === 2
+          ? "right"
+          : "back";
+      return {
+        ...item,
+        position: position
+      };
+    }),
     nextLeftPos: 1,
     nextFrontPos: 2,
     nextRightPos: 3,
@@ -23,6 +36,7 @@ class Workspace extends Component {
     super(props);
     // this.api = new RestApi();
   }
+
   openLoader = async video => {
     // в video приходит экземпляр класса VideoService
 
@@ -78,7 +92,7 @@ class Workspace extends Component {
         <Result
           visible={openResult}
           close={this.openMenu}
-          data={obj[responseId]}
+          data={data[responseId]}
         />
       </Container>
     );
