@@ -1,7 +1,11 @@
 import React, { Component } from 'react';
-import { Button } from '../Components';
 import { VideoContainer } from '../../components/VideoContainer';
-import { LeftSpace, RigthSpace, CommonContainer } from '../Common.styled';
+import {
+  LeftSpace,
+  RigthSpace,
+  CommonContainer,
+  Title,
+} from '../Common.styled';
 import { RestApi } from '../../services/rest-service';
 import StyledButton from '../../components/Button';
 
@@ -19,6 +23,7 @@ class Start extends Component {
     api
       .getStatistic()
       .then(r => this.setState({ statistic: JSON.stringify(r) }));
+    console.log(window.stream);
   }
   onSuccess = e => {
     const { isSuccess } = this.state;
@@ -31,7 +36,7 @@ class Start extends Component {
   };
   render() {
     const { visible } = this.props;
-    const { statistic, isSuccess } = this.state;
+    const { isSuccess } = this.state;
 
     return (
       <CommonContainer visible={visible}>
@@ -43,8 +48,7 @@ class Start extends Component {
           />
         </LeftSpace>
         <RigthSpace>
-          <div>{statistic}</div>
-          {/* <Button onClick={this.handleClick}>ПОИСК</Button> */}
+          <Title>Which celebrity do you look like?</Title>
           <StyledButton
             firstColor="#30d5c8"
             secondColor="#24b3a7"

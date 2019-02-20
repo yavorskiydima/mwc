@@ -131,7 +131,7 @@ const Button = props => {
   const { success, text, backIcon, ...otherProps } = props;
   const currIcon = backIcon ? back : camera;
   return (
-    <div style={{ position: 'relative', width: '100%' }}>
+    <div style={{ position: 'relative', width: '100%', height: '100px' }}>
       <ButtonWrapper
         href="#"
         role="button"

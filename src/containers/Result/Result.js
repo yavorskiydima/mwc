@@ -1,16 +1,28 @@
 import React, { Component } from 'react';
-import { Button } from '../Components';
 import { Container } from './Result.styled';
-import { LeftSpace, RigthSpace } from '../Common.styled';
+import {
+  LeftSpace,
+  RigthSpace,
+  ResultContainer,
+  Title,
+  Img,
+} from '../Common.styled';
 import StyledButton from '../../components/Button';
 
 class Result extends Component {
   render() {
     const { visible, close, data } = this.props;
-    return (
+    return data ? (
       <Container visible={visible}>
-        <LeftSpace>{data && <img src={data.pic} alt="EW" />}</LeftSpace>
+        <LeftSpace>
+          <Img src={data.pic} alt="EW" />
+        </LeftSpace>
         <RigthSpace>
+          <ResultContainer>
+            <Title>{data.name}</Title>
+            <p>{data.date}</p>
+            <p>{data.description}</p>
+          </ResultContainer>
           <StyledButton
             invert
             firstColor="#8f1e59"
@@ -22,7 +34,7 @@ class Result extends Component {
           />
         </RigthSpace>
       </Container>
-    );
+    ) : null;
   }
 }
 

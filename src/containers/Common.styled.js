@@ -49,9 +49,6 @@ export const LeftSpace = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  img {
-    width: 100%;
-  }
 `;
 export const RigthSpace = styled.div`
   box-sizing: border-box;
@@ -64,4 +61,22 @@ export const RigthSpace = styled.div`
   align-items: center;
   text-align: center;
   background: rgba(0, 0, 0, 0.6);
+`;
+export const Title = styled.h1`
+  font-size: 2rem;
+  text-shadow: 0px 0px 20px rgba(255, 255, 255, 0.8);
+`;
+export const ResultContainer = styled.div`
+  height: 55%;
+  padding: 15px;
+  // outline: 2px solid tomato;
+  & > p {
+    font-size: 1.2rem;
+    line-height: 2rem;
+  }
+  overflow: hidden;
+`;
+export const Img = styled.img`
+  margin: auto;
+  height: 80%;
 `;

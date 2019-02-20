@@ -1,0 +1,5 @@
+@font-face {
+  font-family: 'PT Sans';
+  src: url('../fonts/PTC55F.woff2') format('woff2'),
+    url('../fonts/PTC55F.woff') format('woff');
+}
