@@ -1,18 +1,22 @@
-import React, { Component } from "react";
-import { Video } from "./styled-components";
-import { VideoService } from "../services/video-service";
+import React, { Component } from 'react';
+import { Video } from './styled-components';
+import { VideoService } from '../services/video-service';
 
 export class VideoContainer extends Component {
   constructor(props) {
     super(props);
     this.videoRef = React.createRef();
   }
-  componentDidMount() {
+  async componentDidMount() {
     const { getVideoInstance } = this.props;
 
     this.videoInstance = new VideoService(this.videoRef.current);
+    const videoArr = await this.videoInstance.getVideoDevices();
+    const deviceId = videoArr.find(i => i.label.match(/HP Webcam HD 4310/i))
+      .deviceId;
+    this.videoInstance.setDeviceId(deviceId);
     this.videoInstance.startMediaStream();
-    typeof getVideoInstance === "function" &&
+    typeof getVideoInstance === 'function' &&
       getVideoInstance(this.videoInstance);
   }
   componentWillUnmount() {

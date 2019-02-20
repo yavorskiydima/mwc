@@ -23,7 +23,6 @@ class Start extends Component {
     api
       .getStatistic()
       .then(r => this.setState({ statistic: JSON.stringify(r) }));
-    console.log(window.stream);
   }
   onSuccess = e => {
     const { isSuccess } = this.state;
