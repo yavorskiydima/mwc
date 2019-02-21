@@ -127,11 +127,8 @@ class Workspace extends Component {
       responseId > nextFrontPos
         ? responseId - nextFrontPos
         : pos.length - nextFrontPos + responseId;
-
-    const delay = 3000 / step;
-    console.log("step:", step);
-    console.log("people:", data[responseId].name);
-
+        
+    const delay = step > 20 ? 5000 / step : 3000 / step;
     const interval = setInterval(() => {
       this.setState(state => ({
         pos: state.pos.map((item, index) => {
