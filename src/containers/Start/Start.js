@@ -6,7 +6,6 @@ import {
   CommonContainer,
   Title,
 } from '../Common.styled';
-import { RestApi } from '../../services/rest-service';
 import StyledButton from '../../components/Button';
 
 class Start extends Component {
