@@ -1,13 +1,6 @@
 import React, { Component } from 'react';
-import styled from 'styled-components';
-import { Thpace } from '../../services/animation-space';
 
-const SpaceContainerWrapper = styled.div`
-  width: 60vw;
-  heigth: 70vh;
-  margin: auto;
-  background: tomato;
-`;
+import { Thpace } from '../../services/animation-space';
 
 export class Space extends Component {
   constructor(props) {

@@ -4,4 +4,5 @@ export const Video = styled.video`
   width: ${({ width }) => width || '100%'};
   height: ${({ height }) => height || '100%'};
   background: black;
+  transform: scaleX(-1);
 `;
