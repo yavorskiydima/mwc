@@ -1,11 +1,12 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 
-import { Container } from './Components';
-import Start from './Start/Start';
-import { RestApi } from '../services/rest-service';
-import Result from './Result/Result';
-import LoadingSlider from './LoadingSlider/LoadingSlider';
-import data from '../test/list';
+import { Container } from "./Components";
+import Start from "./Start/Start";
+import { RestApi } from "../services/rest-service";
+import Result from "./Result/Result";
+import LoadingSlider from "./LoadingSlider/LoadingSlider";
+import Settings from "./Settings/Settings";
+import data from "../test/list";
 
 class Workspace extends Component {
   state = {
@@ -15,15 +16,15 @@ class Workspace extends Component {
     pos: data.map((item, index) => {
       const position =
         index === 0
-          ? 'left'
+          ? "left"
           : index === 1
-          ? 'front'
+          ? "front"
           : index === 2
-          ? 'right'
-          : 'back';
+          ? "right"
+          : "back";
       return {
         ...item,
-        position: position,
+        position: position
       };
     }),
     nextLeftPos: 1,
@@ -31,7 +32,7 @@ class Workspace extends Component {
     nextRightPos: 3,
     intervalId: null,
     responseId: null,
-    delay: 700,
+    delay: 700
   };
   constructor(props) {
     super(props);
@@ -45,7 +46,7 @@ class Workspace extends Component {
       const result = await this.api.sendPhoto(photo);
       console.log(result);
       const uniqPosition = this.state.pos.findIndex(
-        i => i.key === result.uniq_key,
+        i => i.key === result.uniq_key
       );
       console.log({ uniqPosition });
       result && result.uniq_key && this.setState({ responseId: uniqPosition });
@@ -57,17 +58,17 @@ class Workspace extends Component {
           pos: state.pos.map((item, index) => {
             const position =
               index === state.nextLeftPos
-                ? 'left'
+                ? "left"
                 : index === state.nextFrontPos
-                ? 'front'
+                ? "front"
                 : index === state.nextRightPos
-                ? 'right'
-                : 'back';
+                ? "right"
+                : "back";
             return { ...item, position };
           }),
           nextLeftPos: ++state.nextLeftPos % state.pos.length,
           nextFrontPos: ++state.nextFrontPos % state.pos.length,
-          nextRightPos: ++state.nextRightPos % state.pos.length,
+          nextRightPos: ++state.nextRightPos % state.pos.length
         }));
         if (displayResult && this.state.responseId) {
           clearInterval(this.state.intervalId);
@@ -79,11 +80,11 @@ class Workspace extends Component {
       this.setState({
         openMenu: false,
         openLoader: true,
-        intervalId: interval,
+        intervalId: interval
       });
       return;
     }
-    console.log('Видео поток не запущен!!!');
+    console.log("Видео поток не запущен!!!");
   };
 
   speedLoader = () => {
@@ -95,25 +96,25 @@ class Workspace extends Component {
         : pos.length - nextFrontPos + responseId;
 
     const delay = 3000 / step;
-    console.log('step:', step);
-    console.log('people:', data[responseId].name);
+    console.log("step:", step);
+    console.log("people:", data[responseId].name);
 
     const interval = setInterval(() => {
       this.setState(state => ({
         pos: state.pos.map((item, index) => {
           const position =
             index === state.nextLeftPos
-              ? 'left'
+              ? "left"
               : index === state.nextFrontPos
-              ? 'front'
+              ? "front"
               : index === state.nextRightPos
-              ? 'right'
-              : 'back';
+              ? "right"
+              : "back";
           return { ...item, position };
         }),
         nextLeftPos: ++state.nextLeftPos % state.pos.length,
         nextFrontPos: ++state.nextFrontPos % state.pos.length,
-        nextRightPos: ++state.nextRightPos % state.pos.length,
+        nextRightPos: ++state.nextRightPos % state.pos.length
       }));
       if (this.state.nextLeftPos === this.state.responseId) {
         clearInterval(this.state.intervalId);
@@ -123,7 +124,7 @@ class Workspace extends Component {
 
     this.setState({
       intervalId: interval,
-      delay: delay,
+      delay: delay
     });
   };
 
@@ -132,7 +133,7 @@ class Workspace extends Component {
       openMenu: true,
       openResult: false,
       responseId: null,
-      delay: 700,
+      delay: 700
     });
   };
   openResult = () => {
@@ -143,6 +144,7 @@ class Workspace extends Component {
     const { openMenu, openLoader, openResult, responseId, delay } = this.state;
     return (
       <Container>
+        <Settings />
         <Start visible={openMenu} close={this.openLoader} />
         <LoadingSlider
           pos={this.state.pos}
