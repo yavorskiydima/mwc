@@ -60,12 +60,12 @@ export class Thpace {
       dp.forEach((el, ind) => {
         if (
           this.coordinateTable[coords[el].x] &&
-          this.coordinateTable[coords[el].x][coords[el].y] != undefined
+          this.coordinateTable[coords[el].x][coords[el].y] !== undefined
         ) {
           var c = { x: coords[el].x, y: coords[el].y };
           var change = this.coordinateTable[coords[el].x][coords[el].y];
 
-          if (ind == 0) {
+          if (ind === 0) {
             ctx.moveTo(c.x + change.x, c.y + change.y);
           } else {
             ctx.lineTo(c.x + change.x, c.y + change.y);

@@ -11,7 +11,7 @@ export class VideoService {
     const constraints = this.deviceId
       ? { deviceId: { exact: this.deviceId } }
       : true;
-
+    console.log({ constraints });
     navigator.mediaDevices
       .getUserMedia({ video: constraints })
       .then(this.gotStream)

@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import video from './video.mp4';
 import styled from 'styled-components';
 import Workspace from './containers/Workspace';
 import { Space } from './components/styled-components';
@@ -30,9 +29,6 @@ class App extends Component {
       <>
         <Workspace />
         <Wrapper>
-          {/* <video width="100%" height="auto" preload="auto" autoPlay loop>
-            <source src={video} type="video/mp4" />
-          </video> */}
           <Space />
         </Wrapper>
       </>
