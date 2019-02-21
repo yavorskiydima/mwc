@@ -43,19 +43,28 @@ class Workspace extends Component {
     this.api = new RestApi();
   }
   handleSettingsClick = async e => {
-    const { settings } = this.state;
+    const { settings, selectedDevices } = this.state;
     if (!settings) {
       const devices = await this.videoInstance.getVideoDevices();
+      const currentDeiviceId = devices[0].deviceId;
 
       return this.setState({
         devices,
         settings: true,
+        selectedDevices:
+          selectedDevices == 0 ? currentDeiviceId : selectedDevices,
       });
     }
     this.setState({ settings: false });
   };
   handeleChangeDeviceId = e => {
-    console.log(e.target.value);
+    const { selectedDevices } = this.state;
+    const selectedId = e.target.value;
+
+    if (selectedDevices !== selectedId) {
+      this.videoInstance.setDeviceId(selectedId);
+      this.setState({ selectedDevices: selectedId });
+    }
   };
 
   openLoader = async video => {

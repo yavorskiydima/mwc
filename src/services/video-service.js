@@ -26,6 +26,7 @@ export class VideoService {
   };
   setDeviceId = id => {
     this.deviceId = id;
+    this.startMediaStream();
   };
   gotStream = stream => {
     window.stream = stream;
