@@ -28,9 +28,9 @@ class Start extends Component {
     const { isSuccess } = this.state;
     e.preventDefault();
     setTimeout(() => {
-      this.props.close(this.videoManager);
       this.setState({ isSuccess: false });
-    }, 1000);
+    }, 4000);
+    this.props.close(this.videoManager);
     this.setState({ isSuccess: !isSuccess });
   };
   render() {
