@@ -9,14 +9,14 @@ class Settings extends Component {
     this.setState(state => ({ open: !state.open }));
   };
   render() {
-    const { open, devices, onClose } = this.props;
+    const { open, devices, onClose, changeDeviceId, value } = this.props;
     return (
       <Container>
         <Img spin={open} src={wheel} alt="wheel" onClick={onClose} />
         <Menu open={open}>
           <MenuContainer>
             <h2>Select Camera</h2>
-            <select autoFocus>
+            <select autoFocus value={value} onChange={changeDeviceId}>
               {devices &&
                 devices.map((device, key) => {
                   return (

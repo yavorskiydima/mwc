@@ -35,6 +35,7 @@ class Workspace extends Component {
     delay: 700,
     settings: false,
     devices: [],
+    selectedDevices: 0,
   };
   videoInstance;
   constructor(props) {
@@ -52,6 +53,9 @@ class Workspace extends Component {
       });
     }
     this.setState({ settings: false });
+  };
+  handeleChangeDeviceId = e => {
+    console.log(e.target.value);
   };
 
   openLoader = async video => {
@@ -164,6 +168,7 @@ class Workspace extends Component {
       delay,
       devices,
       settings,
+      selectedDevices,
     } = this.state;
     return (
       <Container>
@@ -171,6 +176,8 @@ class Workspace extends Component {
           open={settings}
           devices={devices}
           onClose={this.handleSettingsClick}
+          value={selectedDevices}
+          changeDeviceId={this.handeleChangeDeviceId}
         />
         <Start
           visible={openMenu}
