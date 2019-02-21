@@ -11,14 +11,6 @@ export class VideoContainer extends Component {
     const { getVideoInstance } = this.props;
 
     this.videoInstance = new VideoService(this.videoRef.current);
-    const videoArr = await this.videoInstance.getVideoDevices();
-    try {
-      const deviceId = videoArr.find(i => i.label.match(/HP Webcam HD 4310/i))
-        .deviceId;
-      this.videoInstance.setDeviceId(deviceId);
-    } catch (e) {
-      console.warn('Error deviceId', e);
-    }
 
     this.videoInstance.startMediaStream();
     typeof getVideoInstance === 'function' &&
