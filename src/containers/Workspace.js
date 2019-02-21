@@ -63,7 +63,7 @@ class Workspace extends Component {
 
     if (selectedDevices !== selectedId) {
       this.videoInstance.setDeviceId(selectedId);
-      this.setState({ selectedDevices: selectedId });
+      this.setState({ selectedDevices: selectedId, settings: false });
     }
   };
 
