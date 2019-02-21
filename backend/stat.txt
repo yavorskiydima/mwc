@@ -14,3 +14,7 @@ francisco_goya
 maria_sklodovskaya_curie
 maria_sklodovskaya_curie
 napoleon
+freddie_mercury
+gagarin
+kurt_cobain
+napoleon

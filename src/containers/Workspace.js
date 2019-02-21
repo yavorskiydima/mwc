@@ -63,7 +63,7 @@ class Workspace extends Component {
 
     if (selectedDevices !== selectedId) {
       this.videoInstance.setDeviceId(selectedId);
-      this.setState({ selectedDevices: selectedId });
+      this.setState({ selectedDevices: selectedId, settings: false });
     }
   };
 
@@ -167,7 +167,13 @@ class Workspace extends Component {
   openResult = () => {
     this.setState({ openLoader: false, openResult: true, intervalId: null });
   };
-
+  getVideoInstance = video => {
+    this.videoInstance = video;
+    const firstDeivice = this.videoInstance.getFirstVideoDevice();
+    this.setState({
+      selectedDevices: firstDeivice,
+    });
+  };
   render() {
     const {
       openMenu,
@@ -191,7 +197,7 @@ class Workspace extends Component {
         <Start
           visible={openMenu}
           close={this.openLoader}
-          getVideoInstance={video => (this.videoInstance = video)}
+          getVideoInstance={this.getVideoInstance}
         />
         <LoadingSlider
           pos={this.state.pos}
