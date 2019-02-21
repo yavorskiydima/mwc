@@ -12,7 +12,7 @@ import StyledButton from '../../components/Button';
 class Result extends Component {
   render() {
     const { visible, close, data } = this.props;
-    return data ? (
+    return data && visible ? (
       <Container visible={visible}>
         <LeftSpace>
           <Img src={data.pic} alt="EW" />

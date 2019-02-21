@@ -23,7 +23,6 @@ class Start extends Component {
     api
       .getStatistic()
       .then(r => this.setState({ statistic: JSON.stringify(r) }));
-    console.log(window.stream);
   }
   onSuccess = e => {
     const { isSuccess } = this.state;
@@ -43,8 +42,8 @@ class Start extends Component {
         <LeftSpace>
           <VideoContainer
             getVideoInstance={this.setVideoManager}
-            width="640px"
-            height="480px"
+            width="520px"
+            height="390px"
           />
         </LeftSpace>
         <RigthSpace>
