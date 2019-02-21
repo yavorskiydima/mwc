@@ -68,15 +68,17 @@ export const Title = styled.h1`
 `;
 export const ResultContainer = styled.div`
   height: 55%;
-  padding: 15px;
-  // outline: 2px solid tomato;
+  padding: 15px;  
   & > p {
     font-size: 1.2rem;
     line-height: 2rem;
-  }
-  overflow: hidden;
+  }  
 `;
 export const Img = styled.img`
   margin: auto;
   height: 80%;
 `;
+export const TopCenter = styled.div`
+position: fixed;
+
+`

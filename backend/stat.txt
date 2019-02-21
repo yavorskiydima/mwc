@@ -28,3 +28,7 @@ francisco_goya
 kurt_cobain
 kurt_cobain
 pushkin
+princess_diana
+antonio_gaudi
+napoleon
+indira_gandhi
