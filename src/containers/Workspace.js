@@ -72,17 +72,13 @@ class Workspace extends Component {
     if (!video.error) {
       const photo = await video.getPhoto();
       const result = await this.api.sendPhoto(photo);
-      console.log(result);
+      console.log({result});
       const uniqPosition = this.state.pos.findIndex(
         i => i.key === result.uniq_key
       );
-      console.log({ uniqPosition });
-      result &&
-        result.uniq_key &&
-        this.setState({
-          responseId:
-            uniqPosition === -1 ? this.state.pos.length - 1 : uniqPosition
-        });
+      
+      const responseId = uniqPosition !== -1 ?  uniqPosition: 40;
+      this.setState({ responseId });
 
       let displayResult = false;
 
@@ -127,11 +123,8 @@ class Workspace extends Component {
       responseId > nextFrontPos
         ? responseId - nextFrontPos
         : pos.length - nextFrontPos + responseId;
-
-    const delay = 3000 / step;
-    console.log("step:", step);
-    console.log("people:", data[responseId].name);
-
+        
+    const delay = step > 20 ? 5000 / step : 3000 / step;
     const interval = setInterval(() => {
       this.setState(state => ({
         pos: state.pos.map((item, index) => {
@@ -190,6 +183,7 @@ class Workspace extends Component {
       settings,
       selectedDevices
     } = this.state;
+    console.log({responseId});
     return (
       <Container>
         <Settings
