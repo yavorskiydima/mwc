@@ -77,7 +77,7 @@ class Workspace extends Component {
         i => i.key === result.uniq_key
       );
       
-      const responseId = uniqPosition !== -1 ?  uniqPosition: 40;
+      const responseId =  uniqPosition !== -1 ?  uniqPosition: 40;
       this.setState({ responseId });
 
       let displayResult = false;
@@ -99,7 +99,7 @@ class Workspace extends Component {
           nextFrontPos: ++state.nextFrontPos % state.pos.length,
           nextRightPos: ++state.nextRightPos % state.pos.length
         }));
-        if (displayResult && this.state.responseId) {
+        if (displayResult && this.state.responseId !== null) {
           clearInterval(this.state.intervalId);
           this.speedLoader();
         }
@@ -183,7 +183,7 @@ class Workspace extends Component {
       settings,
       selectedDevices
     } = this.state;
-    console.log({responseId});
+   
     return (
       <Container>
         <Settings
