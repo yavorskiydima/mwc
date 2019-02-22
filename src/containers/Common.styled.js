@@ -85,5 +85,8 @@ export const TopCenter = styled.div`
   width: 100%;
   & > h1 {
     font-size: 3.2rem;
+    & > span {
+      color: #30d5c8
+    }
   }
 `

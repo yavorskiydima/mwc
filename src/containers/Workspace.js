@@ -188,7 +188,7 @@ class Workspace extends Component {
     return (
       <Container>
         <TopCenter>
-          <Title align="center">Eastwind</Title>
+          <Title align="center">Test <span>D</span>eep <span>N</span>eural <span>A</span>nalytics</Title>
         </TopCenter>
         <Settings
           open={settings}
