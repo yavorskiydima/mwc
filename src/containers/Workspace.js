@@ -7,6 +7,7 @@ import Result from "./Result/Result";
 import LoadingSlider from "./LoadingSlider/LoadingSlider";
 import Settings from "./Settings/Settings";
 import data from "../test/list";
+import {TopCenter, Title} from './Common.styled';
 
 class Workspace extends Component {
   state = {
@@ -186,6 +187,9 @@ class Workspace extends Component {
    
     return (
       <Container>
+        <TopCenter>
+          <Title align="center">Eastwind</Title>
+        </TopCenter>
         <Settings
           open={settings}
           devices={devices}

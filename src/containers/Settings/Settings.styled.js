@@ -3,6 +3,8 @@ import styled from "styled-components";
 export const Container = styled.div`
   float: right;
   margin: 30px;
+  z-index: 10000;
+    opacity: .99;
 `;
 
 export const Img = styled.img`
