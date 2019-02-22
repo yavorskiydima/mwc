@@ -7,6 +7,7 @@ import Result from "./Result/Result";
 import LoadingSlider from "./LoadingSlider/LoadingSlider";
 import Settings from "./Settings/Settings";
 import data from "../test/list";
+import {TopCenter, Title} from './Common.styled';
 
 class Workspace extends Component {
   state = {
@@ -77,7 +78,7 @@ class Workspace extends Component {
         i => i.key === result.uniq_key
       );
       
-      const responseId = uniqPosition !== -1 ?  uniqPosition: 40;
+      const responseId =  uniqPosition !== -1 ?  uniqPosition: 40;
       this.setState({ responseId });
 
       let displayResult = false;
@@ -99,7 +100,7 @@ class Workspace extends Component {
           nextFrontPos: ++state.nextFrontPos % state.pos.length,
           nextRightPos: ++state.nextRightPos % state.pos.length
         }));
-        if (displayResult && this.state.responseId) {
+        if (displayResult && this.state.responseId !== null) {
           clearInterval(this.state.intervalId);
           this.speedLoader();
         }
@@ -183,9 +184,12 @@ class Workspace extends Component {
       settings,
       selectedDevices
     } = this.state;
-    console.log({responseId});
+   
     return (
       <Container>
+        <TopCenter>
+          <Title align="center">Test <span>D</span>eep <span>N</span>eural <span>A</span>nalytics</Title>
+        </TopCenter>
         <Settings
           open={settings}
           devices={devices}
