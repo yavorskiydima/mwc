@@ -7,7 +7,7 @@ import Result from "./Result/Result";
 import LoadingSlider from "./LoadingSlider/LoadingSlider";
 import Settings from "./Settings/Settings";
 import data from "../test/list";
-import {TopCenter, Title} from './Common.styled';
+import { TopCenter, Title } from "./Common.styled";
 
 class Workspace extends Component {
   state = {
@@ -36,7 +36,8 @@ class Workspace extends Component {
     delay: 700,
     settings: false,
     devices: [],
-    selectedDevices: 0
+    selectedDevices: 0,
+    statusSlider: false
   };
   videoInstance;
   constructor(props) {
@@ -69,52 +70,56 @@ class Workspace extends Component {
   };
 
   openLoader = async video => {
-    // в video приходит экземпляр класса VideoService
-    if (!video.error) {
-      const photo = await video.getPhoto();
-      const result = await this.api.sendPhoto(photo);
-      console.log({result});
-      const uniqPosition = this.state.pos.findIndex(
-        i => i.key === result.uniq_key
-      );
-      
-      const responseId =  uniqPosition !== -1 ?  uniqPosition: 40;
-      this.setState({ responseId });
+    if (!this.state.statusSlider) {
+      // в video приходит экземпляр класса VideoService
+      if (!video.error) {
+        this.setState({ statusSlider: true });
 
-      let displayResult = false;
+        const photo = await video.getPhoto();
+        const result = await this.api.sendPhoto(photo);
+        console.log({ result });
+        const uniqPosition = this.state.pos.findIndex(
+          i => i.key === result.uniq_key
+        );
 
-      const interval = setInterval(() => {
-        this.setState(state => ({
-          pos: state.pos.map((item, index) => {
-            const position =
-              index === state.nextLeftPos
-                ? "left"
-                : index === state.nextFrontPos
-                ? "front"
-                : index === state.nextRightPos
-                ? "right"
-                : "back";
-            return { ...item, position };
-          }),
-          nextLeftPos: ++state.nextLeftPos % state.pos.length,
-          nextFrontPos: ++state.nextFrontPos % state.pos.length,
-          nextRightPos: ++state.nextRightPos % state.pos.length
-        }));
-        if (displayResult && this.state.responseId !== null) {
-          clearInterval(this.state.intervalId);
-          this.speedLoader();
-        }
-      }, this.state.delay);
+        const responseId = uniqPosition !== -1 ? uniqPosition : 40;
+        this.setState({ responseId });
 
-      setTimeout(() => (displayResult = true), 5000);
-      this.setState({
-        openMenu: false,
-        openLoader: true,
-        intervalId: interval
-      });
-      return;
-    }
-    console.log("Видео поток не запущен!!!");
+        let displayResult = false;
+
+        const interval = setInterval(() => {
+          this.setState(state => ({
+            pos: state.pos.map((item, index) => {
+              const position =
+                index === state.nextLeftPos
+                  ? "left"
+                  : index === state.nextFrontPos
+                  ? "front"
+                  : index === state.nextRightPos
+                  ? "right"
+                  : "back";
+              return { ...item, position };
+            }),
+            nextLeftPos: ++state.nextLeftPos % state.pos.length,
+            nextFrontPos: ++state.nextFrontPos % state.pos.length,
+            nextRightPos: ++state.nextRightPos % state.pos.length
+          }));
+          if (displayResult && this.state.responseId !== null) {
+            clearInterval(this.state.intervalId);
+            this.speedLoader();
+          }
+        }, this.state.delay);
+
+        setTimeout(() => (displayResult = true), 5000);
+        this.setState({
+          openMenu: false,
+          openLoader: true,
+          intervalId: interval
+        });
+        return;
+      }
+      console.log("Видео поток не запущен!!!");
+    } else console.log("Двойное нажатие кнопки");
   };
 
   speedLoader = () => {
@@ -124,7 +129,7 @@ class Workspace extends Component {
       responseId > nextFrontPos
         ? responseId - nextFrontPos
         : pos.length - nextFrontPos + responseId;
-        
+
     const delay = step > 20 ? 5000 / step : 3000 / step;
     const interval = setInterval(() => {
       this.setState(state => ({
@@ -160,7 +165,8 @@ class Workspace extends Component {
       openMenu: true,
       openResult: false,
       responseId: null,
-      delay: 700
+      delay: 700,
+      statusSlider: false
     });
   };
   openResult = () => {
@@ -184,11 +190,13 @@ class Workspace extends Component {
       settings,
       selectedDevices
     } = this.state;
-   
+
     return (
       <Container>
         <TopCenter>
-          <Title align="center">Test <span>D</span>eep <span>N</span>eural <span>A</span>nalytics</Title>
+          <Title align="center">
+            <span>D</span>eep <span>N</span>eural <span>A</span>nalytics test
+          </Title>
         </TopCenter>
         <Settings
           open={settings}
