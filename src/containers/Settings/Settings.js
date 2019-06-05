@@ -17,10 +17,10 @@ class Settings extends Component {
     this.setState(state => ({ open: !state.open }));
   };
   render() {
-    const { open } = this.state;
+    const { open, devices, onClose, changeDeviceId, value } = this.props;
     return (
       <Container>
-        <Img spin={open} src={wheel} alt="wheel" onClick={this.handleClick} />
+        <Img spin={open} src={wheel} alt="wheel" onClick={onClose} />
         <Menu open={open}>
           <MenuContainer>
             <h2>Select Camera</h2>
@@ -30,6 +30,7 @@ class Settings extends Component {
               selection
               options={cameraOptions}
             />
+
           </MenuContainer>
         </Menu>
       </Container>

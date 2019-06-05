@@ -81,9 +81,9 @@ def recognize(photo, recognizer, characters, vips):
     char_desc = recognizer.transform_image(misc.imread(os.path.join(UPLOAD_PHOTO,photo)))
     if char_desc is None:
         raise NoFaceDetectedError()
-    vip_pers = vips.recognize(char_desc)
-    if vip_pers:
-        return vips.chars[vip_pers], vip_pers
+    #vip_pers = vips.recognize(char_desc)
+    #if vip_pers:
+    #    return vips.chars[vip_pers], vip_pers
     return characters.similar(char_desc), ''
 
 
@@ -157,6 +157,7 @@ def response_error(message):
 @app.route('/photo/upload', methods=['PUT'])
 @cross_origin(origin='*',headers=['Content-Type','Authorization'])
 def photo_upload():
+    import sys
     try:
         img_file = upload_file(request.json['photo'], stat.get_count())
         character, vip = recognize(img_file, face_recognizer, characters, vips)
@@ -167,9 +168,9 @@ def photo_upload():
         if str(e).find('Cannot identify image file') >= 0:
             return response_error('Incorrect file format.')
         else:
-            return response_error(str(e))
+            return response_error('type_error={0}, info={1}'.format(type(e), str(e)))
     except Exception as e:
-        return response_error(str(e))
+        return response_error('type_error={0}, info={1}'.format(type(e), str(e)))
 
     return jsonify(result='ok', id=count_rows, uniq_key=character, vip=vip)
 
@@ -183,7 +184,9 @@ def statistic():
             try:
                 stat.update(characters.family[request.json['character']])
             except Exception as e:
+                print(e)
                 return response_error(str(e))
+
         else:
             return response_error('Invalid character uniq_key')
     return jsonify(result='ok', house_stats=stat.get_statistic())

@@ -11,7 +11,6 @@ export class VideoService {
     const constraints = this.deviceId
       ? { deviceId: { exact: this.deviceId } }
       : true;
-    console.log({ constraints });
     navigator.mediaDevices
       .getUserMedia({ video: constraints })
       .then(this.gotStream)
@@ -26,14 +25,15 @@ export class VideoService {
   };
   setDeviceId = id => {
     this.deviceId = id;
+    this.startMediaStream();
+  };
+  getFirstVideoDevice = async () => {
+    const devices = await this.getVideoDevices();
+    return devices[0].deviceId;
   };
   gotStream = stream => {
     window.stream = stream;
     this.videoElement.srcObject = stream;
-    this.videoElement.onloadedmetadata = function() {
-      console.log('width is', this.videoWidth);
-      console.log('height is', this.videoHeight);
-    };
 
     return navigator.mediaDevices.enumerateDevices();
   };

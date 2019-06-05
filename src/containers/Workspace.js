@@ -7,6 +7,7 @@ import Result from "./Result/Result";
 import LoadingSlider from "./LoadingSlider/LoadingSlider";
 import Settings from "./Settings/Settings";
 import data from "../test/list";
+import { TopCenter, Title } from "./Common.styled";
 
 class Workspace extends Component {
   state = {
@@ -32,59 +33,93 @@ class Workspace extends Component {
     nextRightPos: 3,
     intervalId: null,
     responseId: null,
-    delay: 700
+    delay: 700,
+    settings: false,
+    devices: [],
+    selectedDevices: 0,
+    statusSlider: false
   };
+  videoInstance;
   constructor(props) {
     super(props);
     this.api = new RestApi();
   }
+  handleSettingsClick = async e => {
+    const { settings, selectedDevices } = this.state;
+    if (!settings) {
+      const devices = await this.videoInstance.getVideoDevices();
+      const currentDeiviceId = devices[0].deviceId;
+
+      return this.setState({
+        devices,
+        settings: true,
+        selectedDevices:
+          selectedDevices == 0 ? currentDeiviceId : selectedDevices
+      });
+    }
+    this.setState({ settings: false });
+  };
+  handeleChangeDeviceId = e => {
+    const { selectedDevices } = this.state;
+    const selectedId = e.target.value;
+
+    if (selectedDevices !== selectedId) {
+      this.videoInstance.setDeviceId(selectedId);
+      this.setState({ selectedDevices: selectedId, settings: false });
+    }
+  };
 
   openLoader = async video => {
-    // в video приходит экземпляр класса VideoService
-    if (!video.error) {
-      const photo = await video.getPhoto();
-      const result = await this.api.sendPhoto(photo);
-      console.log(result);
-      const uniqPosition = this.state.pos.findIndex(
-        i => i.key === result.uniq_key
-      );
-      console.log({ uniqPosition });
-      result && result.uniq_key && this.setState({ responseId: uniqPosition });
+    if (!this.state.statusSlider) {
+      // в video приходит экземпляр класса VideoService
+      if (!video.error) {
+        this.setState({ statusSlider: true });
 
-      let displayResult = false;
+        const photo = await video.getPhoto();
+        const result = await this.api.sendPhoto(photo);
+        console.log({ result });
+        const uniqPosition = this.state.pos.findIndex(
+          i => i.key === result.uniq_key
+        );
 
-      const interval = setInterval(() => {
-        this.setState(state => ({
-          pos: state.pos.map((item, index) => {
-            const position =
-              index === state.nextLeftPos
-                ? "left"
-                : index === state.nextFrontPos
-                ? "front"
-                : index === state.nextRightPos
-                ? "right"
-                : "back";
-            return { ...item, position };
-          }),
-          nextLeftPos: ++state.nextLeftPos % state.pos.length,
-          nextFrontPos: ++state.nextFrontPos % state.pos.length,
-          nextRightPos: ++state.nextRightPos % state.pos.length
-        }));
-        if (displayResult && this.state.responseId) {
-          clearInterval(this.state.intervalId);
-          this.speedLoader();
-        }
-      }, this.state.delay);
+        const responseId = uniqPosition !== -1 ? uniqPosition : 40;
+        this.setState({ responseId });
 
-      setTimeout(() => (displayResult = true), 5000);
-      this.setState({
-        openMenu: false,
-        openLoader: true,
-        intervalId: interval
-      });
-      return;
-    }
-    console.log("Видео поток не запущен!!!");
+        let displayResult = false;
+
+        const interval = setInterval(() => {
+          this.setState(state => ({
+            pos: state.pos.map((item, index) => {
+              const position =
+                index === state.nextLeftPos
+                  ? "left"
+                  : index === state.nextFrontPos
+                  ? "front"
+                  : index === state.nextRightPos
+                  ? "right"
+                  : "back";
+              return { ...item, position };
+            }),
+            nextLeftPos: ++state.nextLeftPos % state.pos.length,
+            nextFrontPos: ++state.nextFrontPos % state.pos.length,
+            nextRightPos: ++state.nextRightPos % state.pos.length
+          }));
+          if (displayResult && this.state.responseId !== null) {
+            clearInterval(this.state.intervalId);
+            this.speedLoader();
+          }
+        }, this.state.delay);
+
+        setTimeout(() => (displayResult = true), 5000);
+        this.setState({
+          openMenu: false,
+          openLoader: true,
+          intervalId: interval
+        });
+        return;
+      }
+      console.log("Видео поток не запущен!!!");
+    } else console.log("Двойное нажатие кнопки");
   };
 
   speedLoader = () => {
@@ -95,10 +130,7 @@ class Workspace extends Component {
         ? responseId - nextFrontPos
         : pos.length - nextFrontPos + responseId;
 
-    const delay = 3000 / step;
-    console.log("step:", step);
-    console.log("people:", data[responseId].name);
-
+    const delay = step > 20 ? 5000 / step : 3000 / step;
     const interval = setInterval(() => {
       this.setState(state => ({
         pos: state.pos.map((item, index) => {
@@ -133,19 +165,51 @@ class Workspace extends Component {
       openMenu: true,
       openResult: false,
       responseId: null,
-      delay: 700
+      delay: 700,
+      statusSlider: false
     });
   };
   openResult = () => {
     this.setState({ openLoader: false, openResult: true, intervalId: null });
   };
-
+  getVideoInstance = video => {
+    this.videoInstance = video;
+    const firstDeivice = this.videoInstance.getFirstVideoDevice();
+    this.setState({
+      selectedDevices: firstDeivice
+    });
+  };
   render() {
-    const { openMenu, openLoader, openResult, responseId, delay } = this.state;
+    const {
+      openMenu,
+      openLoader,
+      openResult,
+      responseId,
+      delay,
+      devices,
+      settings,
+      selectedDevices
+    } = this.state;
+
     return (
       <Container>
-        <Settings />
-        <Start visible={openMenu} close={this.openLoader} />
+        <TopCenter>
+          <Title align="center">
+            <span>D</span>eep <span>N</span>eural <span>A</span>nalytics test
+          </Title>
+        </TopCenter>
+        <Settings
+          open={settings}
+          devices={devices}
+          onClose={this.handleSettingsClick}
+          value={selectedDevices}
+          changeDeviceId={this.handeleChangeDeviceId}
+        />
+        <Start
+          visible={openMenu}
+          close={this.openLoader}
+          getVideoInstance={this.getVideoInstance}
+        />
         <LoadingSlider
           pos={this.state.pos}
           visible={openLoader}

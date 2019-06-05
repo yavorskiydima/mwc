@@ -6,7 +6,6 @@ import {
   CommonContainer,
   Title,
 } from '../Common.styled';
-import { RestApi } from '../../services/rest-service';
 import StyledButton from '../../components/Button';
 
 class Start extends Component {
@@ -17,13 +16,10 @@ class Start extends Component {
   };
   setVideoManager = video => {
     this.videoManager = video;
+    const { getVideoInstance } = this.props;
+
+    getVideoInstance(video);
   };
-  componentDidMount() {
-    const api = new RestApi();
-    api
-      .getStatistic()
-      .then(r => this.setState({ statistic: JSON.stringify(r) }));
-  }
   onSuccess = e => {
     const { isSuccess } = this.state;
     e.preventDefault();
