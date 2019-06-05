@@ -39,7 +39,4 @@ export const MenuContainer = styled.div`
   flex-direction: column;
   align-items: center;
   width: 100%;
-  select {
-    width: 60%;
-  }
 `;
