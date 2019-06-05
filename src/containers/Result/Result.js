@@ -8,7 +8,7 @@ import {
   Img,
 } from '../Common.styled';
 import StyledButton from '../../components/Button';
-import { HOLD_SHOW_RESULT_DELAY } from '../../constants';
+import { HOLD_SHOW_RESULT_DELAY, IS_AUTO_SNAPSHOT } from '../../constants';
 
 class Result extends Component {
   holdShowInfo = true;
@@ -18,14 +18,13 @@ class Result extends Component {
   componentDidUpdate() {
     const { visible, close } = this.props;
     this.holdShowInfo = !visible;
-    if (visible && !this.holdShowInfo) {
+    if (IS_AUTO_SNAPSHOT && visible && !this.holdShowInfo) {
       setTimeout(() => {
         close();
         this.holdShowInfo = true;
       }, HOLD_SHOW_RESULT_DELAY);
       return;
     }
-    console.log('Result page =>>> Did update', visible);
   }
   render() {
     const { visible, close, data } = this.props;

@@ -7,7 +7,10 @@ import {
   Title,
 } from '../Common.styled';
 import StyledButton from '../../components/Button';
-import { CREATING_PHOTO_DELAY } from '../../constants';
+import { CREATING_PHOTO_DELAY, IS_AUTO_SNAPSHOT } from '../../constants';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { runAutoPlay, stopAutoPlay } from '../../actions';
 
 class Start extends Component {
   videoManager = {};
@@ -38,7 +41,7 @@ class Start extends Component {
     const { visible } = this.props;
     const { onSuccess } = this;
     this.photoPending = !visible;
-    if (visible && !this.photoPending) {
+    if (IS_AUTO_SNAPSHOT && visible && !this.photoPending) {
       setTimeout(() => {
         onSuccess();
         this.photoPending = true;
@@ -47,7 +50,7 @@ class Start extends Component {
     }
   }
   render() {
-    const { visible } = this.props;
+    const { visible, runAutoplay, isAutoPlay } = this.props;
     const { isSuccess } = this.state;
 
     return (
@@ -65,7 +68,7 @@ class Start extends Component {
             firstColor="#30d5c8"
             secondColor="#24b3a7"
             invert
-            onClick={this.onSuccess}
+            onClick={runAutoplay}
             text="create photo"
             success={isSuccess}
           />
@@ -75,4 +78,15 @@ class Start extends Component {
   }
 }
 
-export default Start;
+export default connect(
+  state => ({
+    isAutoPlay: state.autoplay.isAutoPlay,
+  }),
+  dispatch =>
+    bindActionCreators(
+      {
+        runAutoplay: runAutoPlay,
+      },
+      dispatch,
+    ),
+)(Start);
