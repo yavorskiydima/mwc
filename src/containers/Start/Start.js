@@ -7,6 +7,7 @@ import {
   Title,
 } from '../Common.styled';
 import StyledButton from '../../components/Button';
+import { CREATING_PHOTO_DELAY } from '../../constants';
 
 class Start extends Component {
   videoManager = {};
@@ -14,6 +15,7 @@ class Start extends Component {
     statistic: '',
     isSuccess: false,
   };
+  photoPending = true;
   setVideoManager = video => {
     this.videoManager = video;
     const { getVideoInstance } = this.props;
@@ -22,13 +24,28 @@ class Start extends Component {
   };
   onSuccess = e => {
     const { isSuccess } = this.state;
-    e.preventDefault();
+    // e.preventDefault();
     setTimeout(() => {
       this.setState({ isSuccess: false });
     }, 4000);
     this.props.close(this.videoManager);
     this.setState({ isSuccess: !isSuccess });
   };
+  componentDidMount() {
+    this.photoPending = false;
+  }
+  componentDidUpdate() {
+    const { visible } = this.props;
+    const { onSuccess } = this;
+    this.photoPending = !visible;
+    if (visible && !this.photoPending) {
+      setTimeout(() => {
+        onSuccess();
+        this.photoPending = true;
+      }, CREATING_PHOTO_DELAY);
+      return;
+    }
+  }
   render() {
     const { visible } = this.props;
     const { isSuccess } = this.state;
