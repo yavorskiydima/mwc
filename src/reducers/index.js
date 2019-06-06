@@ -1,11 +1,17 @@
 import { combineReducers } from 'redux';
-import { handleActions } from 'redux-actions';
+import { handleActions, handleAction } from 'redux-actions';
 import { ACTION_TYPES } from '../actions';
 
 const photoInit = {
-  photo: '',
+  currentPhoto: '',
 };
-const currentPhotoReducer = handleActions({}, photoInit);
+const currentPhotoReducer = handleAction(
+  ACTION_TYPES.ADD_PHOTO,
+  (state, { payload }) => ({
+    currentPhoto: payload.currentPhoto,
+  }),
+  photoInit,
+);
 const autoPlayInit = {
   isAutoPlay: false,
 };

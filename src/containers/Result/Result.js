@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Container } from './Result.styled';
+import { Container, BottomSpace, TopSpace } from './Result.styled';
 import {
   LeftSpace,
   RigthSpace,
@@ -9,6 +9,8 @@ import {
 } from '../Common.styled';
 import StyledButton from '../../components/Button';
 import { HOLD_SHOW_RESULT_DELAY, IS_AUTO_SNAPSHOT } from '../../constants';
+import { runAutoPlayHelper } from '../../common.helpers';
+import { connect } from 'react-redux';
 
 class Result extends Component {
   holdShowInfo = true;
@@ -16,30 +18,30 @@ class Result extends Component {
     this.holdShowInfo = false;
   }
   componentDidUpdate() {
-    const { visible, close } = this.props;
-    this.holdShowInfo = !visible;
-    if (IS_AUTO_SNAPSHOT && visible && !this.holdShowInfo) {
-      setTimeout(() => {
-        close();
-        this.holdShowInfo = true;
-      }, HOLD_SHOW_RESULT_DELAY);
-      return;
-    }
+    const { visible, close, isAutoPlay } = this.props;
+
+    runAutoPlayHelper(close, {
+      visible,
+      holdRun: this.holdShowInfo,
+      delay: HOLD_SHOW_RESULT_DELAY,
+      isAutoSnapShot: isAutoPlay,
+    });
   }
   render() {
-    const { visible, close, data } = this.props;
+    const { visible, close, data, currentPhoto } = this.props;
     return data && visible ? (
       <Container visible={visible}>
-        <LeftSpace>
+        <TopSpace>
           <Img src={data.pic} alt="EW" />
-        </LeftSpace>
-        <RigthSpace>
+          {currentPhoto && <Img src={currentPhoto} alt="photo" />}
+        </TopSpace>
+        <BottomSpace>
           <ResultContainer>
             <Title>{data.name}</Title>
             <p>{data.date}</p>
             <p>{data.description}</p>
           </ResultContainer>
-          <StyledButton
+          {/* <StyledButton
             invert
             firstColor="#8f1e59"
             secondColor="#66153f"
@@ -47,11 +49,13 @@ class Result extends Component {
             onClick={close}
             text="return back"
             success={false}
-          />
-        </RigthSpace>
+          /> */}
+        </BottomSpace>
       </Container>
     ) : null;
   }
 }
 
-export default Result;
+export default connect(state => ({
+  isAutoPlay: state.autoplay.isAutoPlay,
+}))(Result);

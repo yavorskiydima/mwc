@@ -1,23 +1,36 @@
-import React, { Component } from "react";
-import wheel from "./wheel.svg";
-import { Container, Menu, Img, MenuContainer } from "./Settings.styled";
-import { Dropdown } from "semantic-ui-react";
+import React, { Component } from 'react';
+import wheel from './wheel.svg';
+import { Container, Menu, Img, MenuContainer } from './Settings.styled';
+import { Dropdown, Checkbox } from 'semantic-ui-react';
+import { runAutoPlay, stopAutoPlay } from '../../actions';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 
-// Example
-const cameraOptions = [
-  { value: "camera1", text: "camera1" },
-  { value: "camera2", text: "camera2" },
-  { value: "camera3", text: "camera3" },
-  { value: "camera4", text: "camera4" }
-];
 class Settings extends Component {
   state = { open: false };
 
   handleClick = () => {
     this.setState(state => ({ open: !state.open }));
   };
+  handleCheckboxChange = (e, data) => {
+    const { runAutoplay, stopAutoplay } = this.props;
+    data.checked ? runAutoplay() : stopAutoplay();
+  };
   render() {
-    const { open, devices, onClose, changeDeviceId, value } = this.props;
+    const {
+      open,
+      devices,
+      onClose,
+      changeDeviceId,
+      value,
+      isAutoPlay,
+    } = this.props;
+
+    let devicesOptions = [];
+    if (devices) {
+      devices.map(device => ({ value: device.deviceId, text: device.label }));
+    }
+    console.log({ isAutoPlay });
     return (
       <Container>
         <Img spin={open} src={wheel} alt="wheel" onClick={onClose} />
@@ -28,9 +41,13 @@ class Settings extends Component {
               placeholder="Select camera"
               fluid
               selection
-              options={cameraOptions}
+              options={devicesOptions}
             />
-
+            <Checkbox
+              label="Auto play"
+              checked={isAutoPlay}
+              onChange={this.handleCheckboxChange}
+            />
           </MenuContainer>
         </Menu>
       </Container>
@@ -38,4 +55,16 @@ class Settings extends Component {
   }
 }
 
-export default Settings;
+export default connect(
+  state => ({
+    isAutoPlay: state.autoplay.isAutoPlay,
+  }),
+  dispatch =>
+    bindActionCreators(
+      {
+        runAutoplay: runAutoPlay,
+        stopAutoplay: stopAutoPlay,
+      },
+      dispatch,
+    ),
+)(Settings);
