@@ -17,6 +17,6 @@ export const TopSpace = styled.div`
 export const BottomSpace = styled.div`
   display: flex;
   width: 100%;
-  height: 60%;
+  height: 100%;
   background: rgba(0, 0, 0, 0.6);
 `;

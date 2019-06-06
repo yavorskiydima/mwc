@@ -195,7 +195,7 @@ class Workspace extends Component {
       settings,
       selectedDevices,
     } = this.state;
-    console.log({ openMenu });
+    console.log(devices);
 
     return (
       <Container>

@@ -28,21 +28,34 @@ class Settings extends Component {
 
     let devicesOptions = [];
     if (devices) {
-      devices.map(device => ({ value: device.deviceId, text: device.label }));
+      devicesOptions = devices.map(device => ({
+        value: device.deviceId,
+        text: device.label,
+      }));
     }
-    console.log({ isAutoPlay });
+    console.log({ value });
     return (
       <Container>
         <Img spin={open} src={wheel} alt="wheel" onClick={onClose} />
         <Menu open={open}>
           <MenuContainer>
             <h2>Select Camera</h2>
-            <Dropdown
+            {/* <Dropdown
               placeholder="Select camera"
               fluid
               selection
               options={devicesOptions}
-            />
+              value={value}
+              onChange={changeDeviceId}
+            /> */}
+            <select autoFocus value={value} onChange={changeDeviceId}>
+              {devices &&
+                devices.map((device, key) => (
+                  <option key={key} value={device.deviceId}>
+                    {device.label}
+                  </option>
+                ))}
+            </select>
             <Checkbox
               label="Auto play"
               checked={isAutoPlay}

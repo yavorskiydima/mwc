@@ -6,9 +6,10 @@ import {
   ResultContainer,
   Title,
   Img,
+  CommonContainer,
 } from '../Common.styled';
 import StyledButton from '../../components/Button';
-import { HOLD_SHOW_RESULT_DELAY, IS_AUTO_SNAPSHOT } from '../../constants';
+import { HOLD_SHOW_RESULT_DELAY } from '../../constants';
 import { runAutoPlayHelper } from '../../common.helpers';
 import { connect } from 'react-redux';
 
@@ -33,6 +34,7 @@ class Result extends Component {
       <Container visible={visible}>
         <TopSpace>
           <Img src={data.pic} alt="EW" />
+
           {currentPhoto && <Img src={currentPhoto} alt="photo" />}
         </TopSpace>
         <BottomSpace>
