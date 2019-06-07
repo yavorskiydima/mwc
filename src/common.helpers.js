@@ -1,5 +1,3 @@
-import { IS_AUTO_SNAPSHOT, CREATING_PHOTO_DELAY } from './constants';
-
 export function runAutoPlayHelper(
   callFunc,
   { visible, holdRun, delay, isAutoSnapShot },
@@ -12,4 +10,11 @@ export function runAutoPlayHelper(
     }, delay);
     return;
   }
+}
+
+export function millisecondsToMinutes(milliseconds) {
+  return milliseconds / 100 / 60;
+}
+export function minutesToMilliseconds(minuets) {
+  return minuets * 60 * 100;
 }

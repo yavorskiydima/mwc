@@ -5,7 +5,7 @@ import { ACTION_TYPES } from '../actions';
 const photoInit = {
   currentPhoto: '',
 };
-const currentPhotoReducer = handleAction(
+const currentPhoto = handleAction(
   ACTION_TYPES.ADD_PHOTO,
   (state, { payload }) => ({
     currentPhoto: payload.currentPhoto,
@@ -15,7 +15,7 @@ const currentPhotoReducer = handleAction(
 const autoPlayInit = {
   isAutoPlay: false,
 };
-const autoplayReducer = handleActions(
+const autoplay = handleActions(
   {
     [ACTION_TYPES.STOP_AUTOPLAY]: () => ({
       isAutoPlay: false,
@@ -26,9 +26,27 @@ const autoplayReducer = handleActions(
   },
   autoPlayInit,
 );
+const delaySettingsInitial = {
+  snapshotDelay: 1,
+  showResultDelay: 2,
+};
+const delaySettings = handleActions(
+  {
+    [ACTION_TYPES.SET_SNAPSHOT_DELAY]: (state, { payload }) => ({
+      ...state,
+      snapshotDelay: payload,
+    }),
+    [ACTION_TYPES.SET_SHOW_RESULT_DELAY]: (state, { payload }) => ({
+      ...state,
+      showResultDelay: payload,
+    }),
+  },
+  delaySettingsInitial,
+);
 
 export const rootReducer = combineReducers({
-  currentPhoto: currentPhotoReducer,
-  autoplay: autoplayReducer,
+  currentPhoto,
+  autoplay,
+  delaySettings,
 });
 console.log({ rootReducer });

@@ -1,16 +1,7 @@
 import React, { Component } from 'react';
 import { Container, BottomSpace, TopSpace } from './Result.styled';
-import {
-  LeftSpace,
-  RigthSpace,
-  ResultContainer,
-  Title,
-  Img,
-  CommonContainer,
-} from '../Common.styled';
-import StyledButton from '../../components/Button';
-import { HOLD_SHOW_RESULT_DELAY } from '../../constants';
-import { runAutoPlayHelper } from '../../common.helpers';
+import { ResultContainer, Title, Img } from '../Common.styled';
+import { runAutoPlayHelper, minutesToMilliseconds } from '../../common.helpers';
 import { connect } from 'react-redux';
 
 class Result extends Component {
@@ -19,12 +10,12 @@ class Result extends Component {
     this.holdShowInfo = false;
   }
   componentDidUpdate() {
-    const { visible, close, isAutoPlay } = this.props;
+    const { visible, close, isAutoPlay, showResultDelay } = this.props;
 
     runAutoPlayHelper(close, {
       visible,
       holdRun: this.holdShowInfo,
-      delay: HOLD_SHOW_RESULT_DELAY,
+      delay: minutesToMilliseconds(showResultDelay),
       isAutoSnapShot: isAutoPlay,
     });
   }
@@ -35,7 +26,13 @@ class Result extends Component {
         <TopSpace>
           <Img src={data.pic} alt="EW" />
 
-          {currentPhoto && <Img src={currentPhoto} alt="photo" />}
+          {currentPhoto && (
+            <Img
+              style={{ transform: 'scaleX(-1)' }}
+              src={currentPhoto}
+              alt="photo"
+            />
+          )}
         </TopSpace>
         <BottomSpace>
           <ResultContainer>
@@ -43,15 +40,6 @@ class Result extends Component {
             <p>{data.date}</p>
             <p>{data.description}</p>
           </ResultContainer>
-          {/* <StyledButton
-            invert
-            firstColor="#8f1e59"
-            secondColor="#66153f"
-            backIcon
-            onClick={close}
-            text="return back"
-            success={false}
-          /> */}
         </BottomSpace>
       </Container>
     ) : null;
@@ -60,4 +48,5 @@ class Result extends Component {
 
 export default connect(state => ({
   isAutoPlay: state.autoplay.isAutoPlay,
+  showResultDelay: state.delaySettings.showResultDelay,
 }))(Result);

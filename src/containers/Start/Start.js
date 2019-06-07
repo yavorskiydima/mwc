@@ -11,7 +11,7 @@ import { CREATING_PHOTO_DELAY, IS_AUTO_SNAPSHOT } from '../../constants';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { runAutoPlay, stopAutoPlay } from '../../actions';
-import { runAutoPlayHelper } from '../../common.helpers';
+import { runAutoPlayHelper, minutesToMilliseconds } from '../../common.helpers';
 
 class Start extends Component {
   videoManager = {};
@@ -36,24 +36,24 @@ class Start extends Component {
     this.setState({ isSuccess: !isSuccess });
   };
   componentDidMount() {
-    const { isAutoPlay } = this.props;
+    const { isAutoPlay, snapshotDelay } = this.props;
     this.photoPending = false;
     const { visible } = this.props;
     const { onSuccess } = this;
     runAutoPlayHelper(onSuccess, {
       visible,
       holdRun: this.photoPending,
-      delay: CREATING_PHOTO_DELAY,
+      delay: minutesToMilliseconds(snapshotDelay),
       isAutoSnapShot: isAutoPlay,
     });
   }
   componentDidUpdate() {
-    const { visible, isAutoPlay } = this.props;
+    const { visible, isAutoPlay, snapshotDelay } = this.props;
     const { onSuccess } = this;
     runAutoPlayHelper(onSuccess, {
       visible,
       holdRun: this.photoPending,
-      delay: CREATING_PHOTO_DELAY,
+      delay: minutesToMilliseconds(snapshotDelay),
       isAutoSnapShot: isAutoPlay,
     });
   }
@@ -89,6 +89,7 @@ class Start extends Component {
 export default connect(
   state => ({
     isAutoPlay: state.autoplay.isAutoPlay,
+    snapshotDelay: state.delaySettings.snapshotDelay,
   }),
   dispatch =>
     bindActionCreators(

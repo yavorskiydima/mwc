@@ -26,7 +26,6 @@ export const Menu = styled.div`
   transform: scale(${props => (props.open ? '1,1' : '0,0')});
   transition: all 0.2s linear;
   width: 200px;
-  height: 150px;
   margin: 24px;
   z-index: 55;
   background: rgba(0, 0, 0, 0.4);
@@ -37,7 +36,8 @@ export const Menu = styled.div`
 export const MenuContainer = styled.div`
   display: flex;
   flex-direction: column;
-  width: 100%;
+  padding: 5px;
+
   & > * {
     margin: 5px 0;
   }
