@@ -30,6 +30,26 @@ const delaySettingsInitial = {
   snapshotDelay: 10,
   showResultDelay: 20,
 };
+
+const runStatusInitial = {
+  isRunSnapshot: false,
+  isRunResultView: false,
+};
+
+const runStatus = handleActions(
+  {
+    [ACTION_TYPES.SET_STATUS_RUN_SNAPSHOT]: state => ({
+      ...state,
+      isRunSnapshot: !state.isRunSnapshot,
+    }),
+    [ACTION_TYPES.SET_STATUS_RUN_VIEW_RESULT]: state => ({
+      ...state,
+      isRunResultView: !state.isRunResultView,
+    }),
+  },
+  runStatusInitial,
+);
+
 const delaySettings = handleActions(
   {
     [ACTION_TYPES.SET_SNAPSHOT_DELAY]: (state, { payload }) => ({
@@ -48,5 +68,5 @@ export const rootReducer = combineReducers({
   currentPhoto,
   autoplay,
   delaySettings,
+  runStatus,
 });
-console.log({ rootReducer });

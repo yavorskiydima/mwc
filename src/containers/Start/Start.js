@@ -10,7 +10,11 @@ import StyledButton from '../../components/Button';
 import { CREATING_PHOTO_DELAY, IS_AUTO_SNAPSHOT } from '../../constants';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { runAutoPlay, stopAutoPlay } from '../../actions';
+import {
+  runAutoPlay,
+  toggleSnapshotStatus,
+  toggleViewResultStatus,
+} from '../../actions';
 import { runAutoPlayHelper, minutesToMilliseconds } from '../../common.helpers';
 import Timer from '../../components/Timer';
 
@@ -40,15 +44,22 @@ class Start extends Component {
     this.photoPending = false;
   }
   componentDidUpdate() {
-    const { visible, isAutoPlay, snapshotDelay } = this.props;
+    const {
+      visible,
+      isAutoPlay,
+      snapshotDelay,
+      toggleSnapshotStatus,
+      isRunSnapshot,
+    } = this.props;
     const { onSuccess } = this;
     const delay = minutesToMilliseconds(snapshotDelay);
-    console.log({ delay, snapshotDelay });
+
     runAutoPlayHelper(onSuccess, {
       visible,
-      holdRun: this.photoPending,
+      holdRun: isRunSnapshot,
       delay,
       isAutoSnapShot: isAutoPlay,
+      changeStatus: toggleSnapshotStatus,
     });
   }
   render() {
@@ -76,11 +87,14 @@ export default connect(
   state => ({
     isAutoPlay: state.autoplay.isAutoPlay,
     snapshotDelay: state.delaySettings.snapshotDelay,
+    isRunSnapshot: state.runStatus.isRunSnapshot,
   }),
   dispatch =>
     bindActionCreators(
       {
         runAutoplay: runAutoPlay,
+        toggleSnapshotStatus,
+        toggleViewResultStatus,
       },
       dispatch,
     ),

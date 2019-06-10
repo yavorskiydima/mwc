@@ -1,14 +1,14 @@
 export function runAutoPlayHelper(
   callFunc,
-  { visible, holdRun, delay, isAutoSnapShot },
+  { visible, holdRun, delay, isAutoSnapShot, changeStatus },
 ) {
-  holdRun = !visible;
+  console.log(isAutoSnapShot && visible && !holdRun);
   if (isAutoSnapShot && visible && !holdRun) {
     setTimeout(() => {
       callFunc();
-      holdRun = true;
+      changeStatus();
+      console.log('run Snap delay->', delay);
     }, delay);
-    return;
   }
 }
 

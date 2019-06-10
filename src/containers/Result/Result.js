@@ -3,6 +3,8 @@ import { Container, BottomSpace, TopSpace } from './Result.styled';
 import { ResultContainer, Title, Img } from '../Common.styled';
 import { runAutoPlayHelper, minutesToMilliseconds } from '../../common.helpers';
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { toggleViewResultStatus, toggleSnapshotStatus } from '../../actions';
 
 class Result extends Component {
   holdShowInfo = true;
@@ -10,13 +12,21 @@ class Result extends Component {
     this.holdShowInfo = false;
   }
   componentDidUpdate() {
-    const { visible, close, isAutoPlay, showResultDelay } = this.props;
+    const {
+      visible,
+      close,
+      isAutoPlay,
+      showResultDelay,
+      isRunResultView,
+      toggleViewResultStatus,
+    } = this.props;
 
     runAutoPlayHelper(close, {
       visible,
-      holdRun: this.holdShowInfo,
+      holdRun: isRunResultView,
       delay: minutesToMilliseconds(showResultDelay),
       isAutoSnapShot: isAutoPlay,
+      changeStatus: toggleViewResultStatus,
     });
   }
   render() {
@@ -46,7 +56,18 @@ class Result extends Component {
   }
 }
 
-export default connect(state => ({
-  isAutoPlay: state.autoplay.isAutoPlay,
-  showResultDelay: state.delaySettings.showResultDelay,
-}))(Result);
+export default connect(
+  state => ({
+    isAutoPlay: state.autoplay.isAutoPlay,
+    showResultDelay: state.delaySettings.showResultDelay,
+    isRunResultView: state.runStatus.isRunResultView,
+  }),
+  dispatch =>
+    bindActionCreators(
+      {
+        toggleSnapshotStatus,
+        toggleViewResultStatus,
+      },
+      dispatch,
+    ),
+)(Result);
