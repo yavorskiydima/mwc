@@ -15,8 +15,8 @@ const minutes = Array(59)
   .fill(0)
   .map(Number.call, Number)
   .map(minute => ({
-    text: minute,
-    value: minute,
+    text: minute * 10,
+    value: minute * 10,
   }));
 
 class Settings extends Component {

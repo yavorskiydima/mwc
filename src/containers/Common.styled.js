@@ -10,7 +10,7 @@ export const CommonContainer = styled.div`
   display: flex;
   z-index: 4;
   width: 60%;
-  height: 60%;
+  height: 70%;
   top: 20%;
   left: 20%;
   border: 2px solid whitesmoke;

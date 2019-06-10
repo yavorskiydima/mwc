@@ -12,6 +12,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { runAutoPlay, stopAutoPlay } from '../../actions';
 import { runAutoPlayHelper, minutesToMilliseconds } from '../../common.helpers';
+import Timer from '../../components/Timer';
 
 class Start extends Component {
   videoManager = {};
@@ -36,31 +37,23 @@ class Start extends Component {
     this.setState({ isSuccess: !isSuccess });
   };
   componentDidMount() {
-    const { isAutoPlay, snapshotDelay } = this.props;
     this.photoPending = false;
-    const { visible } = this.props;
-    const { onSuccess } = this;
-    runAutoPlayHelper(onSuccess, {
-      visible,
-      holdRun: this.photoPending,
-      delay: minutesToMilliseconds(snapshotDelay),
-      isAutoSnapShot: isAutoPlay,
-    });
   }
   componentDidUpdate() {
     const { visible, isAutoPlay, snapshotDelay } = this.props;
     const { onSuccess } = this;
+    const delay = minutesToMilliseconds(snapshotDelay);
+    console.log({ delay, snapshotDelay });
     runAutoPlayHelper(onSuccess, {
       visible,
       holdRun: this.photoPending,
-      delay: minutesToMilliseconds(snapshotDelay),
+      delay,
       isAutoSnapShot: isAutoPlay,
     });
   }
   render() {
-    const { visible, runAutoplay, isAutoPlay } = this.props;
-    const { isSuccess } = this.state;
-
+    const { visible, isAutoPlay, snapshotDelay } = this.props;
+    const delay = minutesToMilliseconds(snapshotDelay);
     return (
       <CommonContainer visible={visible}>
         <LeftSpace>
@@ -72,14 +65,7 @@ class Start extends Component {
         </LeftSpace>
         <RigthSpace>
           <Title>Which celebrity do you look like?</Title>
-          <StyledButton
-            firstColor="#30d5c8"
-            secondColor="#24b3a7"
-            invert
-            onClick={runAutoplay}
-            text="create photo"
-            success={isSuccess}
-          />
+          {isAutoPlay && <Timer time={delay} />}
         </RigthSpace>
       </CommonContainer>
     );

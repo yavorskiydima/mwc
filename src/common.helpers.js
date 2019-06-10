@@ -13,8 +13,8 @@ export function runAutoPlayHelper(
 }
 
 export function millisecondsToMinutes(milliseconds) {
-  return milliseconds / 100 / 60;
+  return milliseconds / 1000;
 }
 export function minutesToMilliseconds(minuets) {
-  return minuets * 60 * 100;
+  return minuets * 1000;
 }

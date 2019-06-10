@@ -1,4 +1,5 @@
-import { decrimentTime } from './index';
+import { decrimentTime, getTimeToString } from './index';
+
 describe('decrimentTime', () => {
   it('should return time less one second case 1', () => {
     const time = {
@@ -39,7 +40,7 @@ describe('decrimentTime', () => {
     };
     expect(decrimentTime(time)).toEqual(time1);
   });
-  it('should return time less one second case 4', () => {
+  it('should return time less one second case  4', () => {
     const time = {
       hour: 0,
       minutes: 0,
@@ -51,5 +52,13 @@ describe('decrimentTime', () => {
       seconds: 0,
     };
     expect(decrimentTime(time)).toEqual(time1);
+  });
+  it('should return string format time', () => {
+    const time = {
+      hour: 0,
+      minutes: 0,
+      seconds: 0,
+    };
+    expect(getTimeToString(time)).toBe('00:00:00');
   });
 });

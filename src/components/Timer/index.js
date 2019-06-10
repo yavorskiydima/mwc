@@ -1,39 +1,30 @@
-import React, { useState, useEffect } from 'react';
-// import styled from 'stayled-components';
+import React from 'react';
+import styled from 'styled-components';
+import Timer from 'react-compound-timer';
 
-export const Timer = props => {
-  const [time, setTime] = useState({ hour: 0, minuets: 0, seconds: 0 });
+const TimerWrapper = styled.div`
+  color: #30d5c8;
+  font-size: 6em;
+  line-height: 3em;
+  text-shadow: 0 0 8px rgba(255, 255, 255, 0.6);
+  font-weight: 800;
+`;
 
-  useEffect(() => {
-    // const interval = setInterval(()=>)
-  });
-  return null;
+const CustomTimer = ({ time, direction = 'backward' }) => {
+  return (
+    <Timer
+      initialTime={time}
+      direction={direction}
+      formatValue={value => `${value < 10 ? `0${value}` : value}`}
+    >
+      {() => (
+        <TimerWrapper>
+          <Timer.Minutes />:
+          <Timer.Seconds />
+        </TimerWrapper>
+      )}
+    </Timer>
+  );
 };
 
-export function decrimentTime(time) {
-  const { hour, minutes, seconds } = time;
-  if (!hour && !minutes && !seconds) {
-    return time;
-  }
-
-  if (!seconds) {
-    if (!minutes) {
-      return {
-        hour: hour - 1,
-        minutes: 59,
-        seconds: 59,
-      };
-    } else {
-      return {
-        hour,
-        minutes: minutes - 1,
-        seconds: 59,
-      };
-    }
-  }
-  return {
-    hour,
-    minutes,
-    seconds: seconds - 1,
-  };
-}
+export default CustomTimer;

@@ -27,8 +27,8 @@ const autoplay = handleActions(
   autoPlayInit,
 );
 const delaySettingsInitial = {
-  snapshotDelay: 1,
-  showResultDelay: 2,
+  snapshotDelay: 10,
+  showResultDelay: 20,
 };
 const delaySettings = handleActions(
   {
