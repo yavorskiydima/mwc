@@ -179,9 +179,9 @@ class Workspace extends Component {
   };
   getVideoInstance = video => {
     this.videoInstance = video;
-    const firstDeivice = this.videoInstance.getFirstVideoDevice();
+    const firstDevice = this.videoInstance.getFirstVideoDevice();
     this.setState({
-      selectedDevices: firstDeivice,
+      selectedDevices: firstDevice,
     });
   };
   render() {
@@ -195,7 +195,6 @@ class Workspace extends Component {
       settings,
       selectedDevices,
     } = this.state;
-    console.log(devices);
 
     return (
       <Container>

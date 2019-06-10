@@ -6,8 +6,6 @@ import {
   CommonContainer,
   Title,
 } from '../Common.styled';
-import StyledButton from '../../components/Button';
-import { CREATING_PHOTO_DELAY, IS_AUTO_SNAPSHOT } from '../../constants';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import {
@@ -59,9 +57,12 @@ class Start extends Component {
       holdRun: isRunSnapshot,
       delay,
       isAutoSnapShot: isAutoPlay,
-      changeStatus: toggleSnapshotStatus,
+      changeStatus: () => {
+        toggleSnapshotStatus();
+      },
     });
   }
+
   render() {
     const { visible, isAutoPlay, snapshotDelay } = this.props;
     const delay = minutesToMilliseconds(snapshotDelay);
@@ -76,7 +77,13 @@ class Start extends Component {
         </LeftSpace>
         <RigthSpace>
           <Title>Which celebrity do you look like?</Title>
-          {isAutoPlay && <Timer time={delay} />}
+          {isAutoPlay && visible && (
+            <Timer
+              resetFunc={this.resetTimer}
+              startFunc={this.startTimer}
+              time={delay}
+            />
+          )}
         </RigthSpace>
       </CommonContainer>
     );

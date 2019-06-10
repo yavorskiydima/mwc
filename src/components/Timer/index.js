@@ -10,19 +10,28 @@ const TimerWrapper = styled.div`
   font-weight: 800;
 `;
 
-const CustomTimer = ({ time, direction = 'backward' }) => {
+const CustomTimer = ({
+  time,
+  direction = 'backward',
+  resetFunc,
+  startFunc,
+}) => {
   return (
     <Timer
       initialTime={time}
       direction={direction}
       formatValue={value => `${value < 10 ? `0${value}` : value}`}
     >
-      {() => (
-        <TimerWrapper>
-          <Timer.Minutes />:
-          <Timer.Seconds />
-        </TimerWrapper>
-      )}
+      {({ reset, start }) => {
+        // startFunc(start);
+        // resetFunc(reset);
+        return (
+          <TimerWrapper>
+            <Timer.Minutes />:
+            <Timer.Seconds />
+          </TimerWrapper>
+        );
+      }}
     </Timer>
   );
 };

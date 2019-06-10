@@ -56,6 +56,7 @@ class Settings extends Component {
         text: device.label,
       }));
     }
+    console.log('Settings =--> ', value);
 
     return (
       <Container>
@@ -66,22 +67,22 @@ class Settings extends Component {
               <h2>Settings</h2>
               {/* todo: configure Dropdown */}
               <label>Select video device</label>
-              <Dropdown
+              {/* <Dropdown
                 placeholder="Select camera"
                 fluid
                 selection
                 options={devicesOptions}
                 value={value}
                 onChange={changeDeviceId}
-              />
-              {/* <select autoFocus value={value} onChange={changeDeviceId}>
+              /> */}
+              <select autoFocus value={value} onChange={changeDeviceId}>
                 {devices &&
                   devices.map((device, key) => (
                     <option key={key} value={device.deviceId}>
                       {device.label}
                     </option>
                   ))}
-              </select> */}
+              </select>
               <Checkbox
                 label="Auto play"
                 checked={isAutoPlay}
