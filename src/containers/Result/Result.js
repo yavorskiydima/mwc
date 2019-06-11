@@ -26,6 +26,7 @@ class Result extends Component {
       isRunResultView,
       toggleViewResultStatus,
       currentPhoto,
+      facePosition,
     } = this.props;
 
     runAutoPlayHelper(close, {
@@ -36,7 +37,16 @@ class Result extends Component {
       changeStatus: toggleViewResultStatus,
     });
     if (currentPhoto) {
-      cutImage(currentPhoto, this.canvas.current, this.img.current);
+      const { left_angle, height, width } = facePosition;
+      cutImage(
+        currentPhoto,
+        this.canvas.current,
+        this.img.current,
+        left_angle[0],
+        left_angle[1],
+        width,
+        height,
+      );
     }
   }
   render() {

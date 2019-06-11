@@ -1,7 +1,8 @@
 #!/ew-promo/anaconda3/bin/ python
 import os
 import numpy as np
-
+import pandas as pd
+import dlib
 
 CHARACTER_DESCRIPTION = 'character_vectors.csv'
 VIP_DESCRIPTION = 'vip_vectors.csv'
@@ -36,7 +37,6 @@ class BasePersons(object):
 
 class Characters(BasePersons):
     def __init__(self, vectors_file):
-        import pandas as pd
         df = pd.read_csv(vectors_file, sep='\t', header=0)
         self._families = {key: value for key, value in zip(df.iloc[:, 0], df.iloc[:, 1])}
         super().__init__(list(df.iloc[:, 0]), np.array(df.iloc[:, 2:]))
@@ -61,30 +61,29 @@ class VIPs(BasePersons):
 
 class FaceRecognizer(object):
     def __init__(self, shape_predictor_68_face_landmarks, dlib_face_recognition_resnet_model_v1):
-        import dlib
         self._shape_predictor = dlib.shape_predictor(shape_predictor_68_face_landmarks)
         self._face_rec = dlib.face_recognition_model_v1(dlib_face_recognition_resnet_model_v1)
         self._detector = dlib.get_frontal_face_detector()
 
     def transform_image(self, img):
-        rotates = [img, np.rot90(img, 1), np.rot90(img, 2), np.rot90(img, -1)]
+        #rotates = [img, np.rot90(img, 1), np.rot90(img, 2), np.rot90(img, -1)]
+        rotates = [img]
         faces = [self._detector(img_rot, 1) for img_rot in rotates]
         faces = list(filter(lambda x: x[0], zip(faces, rotates)))
         if faces:
             shape = self._shape_predictor(faces[0][1], faces[0][0][0])
-            return np.array(self._face_rec.compute_face_descriptor(faces[0][1], shape))
+            return np.array(self._face_rec.compute_face_descriptor(faces[0][1], shape)), faces[0][0][0]
         return
 
 
-def recognize(photo, recognizer, characters, vips):
-    from scipy import misc
-    char_desc = recognizer.transform_image(misc.imread(os.path.join(UPLOAD_PHOTO,photo)))
+def recognize(img, recognizer, characters, vips):
+    char_desc, face = recognizer.transform_image(img)
     if char_desc is None:
         raise NoFaceDetectedError()
     #vip_pers = vips.recognize(char_desc)
     #if vip_pers:
     #    return vips.chars[vip_pers], vip_pers
-    return characters.similar(char_desc), ''
+    return characters.similar(char_desc), face, ''
 
 
 from collections import Counter
@@ -154,13 +153,27 @@ def response_error(message):
     return jsonify(result='failure', reason=message)
 
 
+def transform_face(face, max_right, max_bottom):
+
+    left, right, top, bottom = face.left(), face.right(), face.top(), face.bottom()
+    left1 = left - (right - left) * 15 // 100 if (right - left) * 15 // 100 < left else 0
+    right1 = right + (right - left) * 15 // 100 if right + (right - left) * 15 // 100 < max_right else max_right - 1
+    top1 = top - (bottom - top) * 35 // 100 if (bottom - top) * 35 // 100 < top else 0
+    bottom1 = bottom + (bottom - top) * 15 // 100 if bottom + (bottom - top) * 15 // 100 < max_bottom else max_bottom - 1
+    return dlib.rectangle(left1, top1, right1, bottom1)
+
+
 @app.route('/photo/upload', methods=['PUT'])
 @cross_origin(origin='*',headers=['Content-Type','Authorization'])
 def photo_upload():
     import sys
+    from scipy import misc
     try:
         img_file = upload_file(request.json['photo'], stat.get_count())
-        character, vip = recognize(img_file, face_recognizer, characters, vips)
+        img = misc.imread(os.path.join(UPLOAD_PHOTO, img_file))
+        max_right, max_bottom = img.shape[0], img.shape[1]
+        character, face, vip = recognize(img, face_recognizer, characters, vips)
+        face = transform_face(face, max_right, max_bottom)
         count_rows = stat.update(characters.family[character])
     except NoFaceDetectedError:
         return response_error('No Face Detected.')
@@ -172,7 +185,9 @@ def photo_upload():
     except Exception as e:
         return response_error('type_error={0}, info={1}'.format(type(e), str(e)))
 
-    return jsonify(result='ok', id=count_rows, uniq_key=character, vip=vip)
+    return jsonify(result='ok', id=count_rows, uniq_key=character, vip=vip,
+                   left_angle=[face.left(), face.top()], width=face.right() - face.left(),
+                   height=face.bottom() - face.top())
 
 
 

@@ -11,7 +11,6 @@ import { TopCenter, Title } from './Common.styled';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { addPhoto } from '../actions';
-import { pFileReader } from '../services/helpers';
 
 class Workspace extends Component {
   state = {
@@ -42,6 +41,11 @@ class Workspace extends Component {
     devices: [],
     selectedDevices: 0,
     statusSlider: false,
+    facePosition: {
+      left_angle: [],
+      height: 0,
+      width: 0,
+    },
   };
   videoInstance;
   photoInBase64 = '';
@@ -83,12 +87,20 @@ class Workspace extends Component {
         const photo = await video.getPhoto();
         this.photoInBase64 = photo;
         const result = await this.api.sendPhoto(photo);
+        console.log({ result });
         const uniqPosition = this.state.pos.findIndex(
           i => i.key === result.uniq_key,
         );
 
         const responseId = uniqPosition !== -1 ? uniqPosition : 40;
-        this.setState({ responseId });
+        this.setState({
+          responseId,
+          facePosition: {
+            left_angle: result.left_angle,
+            width: result.width,
+            height: result.height,
+          },
+        });
 
         let displayResult = false;
 
@@ -194,6 +206,7 @@ class Workspace extends Component {
       devices,
       settings,
       selectedDevices,
+      facePosition,
     } = this.state;
 
     return (
@@ -225,6 +238,7 @@ class Workspace extends Component {
           visible={openResult}
           close={this.openMenu}
           data={data[responseId]}
+          facePosition={facePosition}
         />
       </Container>
     );
