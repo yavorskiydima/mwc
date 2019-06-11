@@ -81,7 +81,7 @@ class Workspace extends Component {
         this.setState({ statusSlider: true });
         // получение фотографии
         const photo = await video.getPhoto();
-        this.photoInBase64 = await pFileReader(photo);
+        this.photoInBase64 = photo;
         const result = await this.api.sendPhoto(photo);
         const uniqPosition = this.state.pos.findIndex(
           i => i.key === result.uniq_key,

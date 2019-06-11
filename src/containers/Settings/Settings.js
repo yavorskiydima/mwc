@@ -93,7 +93,7 @@ class Settings extends Component {
                 <Dropdown
                   fluid
                   selection
-                  placeholder="Min"
+                  placeholder="Sec"
                   options={minutes}
                   value={snapshotDelay}
                   onChange={this.handleChangeSnapshotDelay}
@@ -104,7 +104,7 @@ class Settings extends Component {
                 <Dropdown
                   fluid
                   selection
-                  placeholder="Min"
+                  placeholder="Sec"
                   options={minutes}
                   value={showResultDelay}
                   onChange={this.handleChangeShowResultDelay}

@@ -1,7 +1,11 @@
 import React, { Component } from 'react';
 import { Container, BottomSpace, TopSpace } from './Result.styled';
 import { ResultContainer, Title, Img } from '../Common.styled';
-import { runAutoPlayHelper, minutesToMilliseconds } from '../../common.helpers';
+import {
+  runAutoPlayHelper,
+  minutesToMilliseconds,
+  cutImage,
+} from '../../common.helpers';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { toggleViewResultStatus, toggleSnapshotStatus } from '../../actions';
@@ -10,6 +14,7 @@ class Result extends Component {
   holdShowInfo = true;
   componentDidMount() {
     this.holdShowInfo = false;
+    this.canvas = React.createRef();
   }
   componentDidUpdate() {
     const {
@@ -19,6 +24,7 @@ class Result extends Component {
       showResultDelay,
       isRunResultView,
       toggleViewResultStatus,
+      currentPhoto,
     } = this.props;
 
     runAutoPlayHelper(close, {
@@ -28,19 +34,25 @@ class Result extends Component {
       isAutoSnapShot: isAutoPlay,
       changeStatus: toggleViewResultStatus,
     });
+    if (currentPhoto) {
+      cutImage(currentPhoto, this.canvas.current);
+    }
   }
   render() {
-    const { visible, close, data, currentPhoto } = this.props;
+    const { visible, data, currentPhoto } = this.props;
     return data && visible ? (
       <Container visible={visible}>
         <TopSpace>
           <Img src={data.pic} alt="EW" />
 
           {currentPhoto && (
-            <Img
-              style={{ transform: 'scaleX(-1)' }}
-              src={currentPhoto}
-              alt="photo"
+            <canvas
+              // as="canvas"
+              style={{
+                background: 'tomato',
+                // transform: 'scaleX(-1)',
+              }}
+              ref={this.canvas}
             />
           )}
         </TopSpace>
