@@ -63,7 +63,7 @@ export const RigthSpace = styled.div`
   background: rgba(0, 0, 0, 0.6);
 `;
 export const Title = styled.h1`
-  font-size: 2rem;
+  font-size: 2.2rem;
   text-shadow: 0px 0px 20px rgba(255, 255, 255, 0.8);
   text-align: ${({ align }) => align || 'none'};
 `;
@@ -71,8 +71,8 @@ export const ResultContainer = styled.div`
   height: 55%;
   padding: 15px;
   & > p {
-    font-size: 1.2rem;
-    line-height: 2rem;
+    font-size: 1.8rem;
+    line-height: 1.8rem;
   }
 `;
 

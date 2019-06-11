@@ -8,8 +8,14 @@ export const Container = styled.div`
 `;
 
 export const Img = styled.img`
+  opacity: 0;
   cursor: pointer;
   float: right;
+  transition: opacity 0.2s ease-out;
+  &:hover {
+    opacity: 1;
+  }
+
   animation: ${props => (props.spin ? 'spin infinite 2s linear' : 'none')};
   @keyframes spin {
     from {

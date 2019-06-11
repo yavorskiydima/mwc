@@ -56,7 +56,6 @@ class Settings extends Component {
         text: device.label,
       }));
     }
-    console.log('Settings =--> ', value);
 
     return (
       <Container>
