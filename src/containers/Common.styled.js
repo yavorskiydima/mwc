@@ -75,6 +75,7 @@ export const ResultContainer = styled.div`
     line-height: 2rem;
   }
 `;
+
 export const Img = styled.img`
   margin: auto;
   height: 80%;
@@ -82,6 +83,13 @@ export const Img = styled.img`
   box-shadow: 0 0 20px rgba(255, 255, 255, 0.4),
     inset 0 -10px 20px rgba(255, 255, 255, 0.3);
 `;
+export const Canvas = styled.canvas`
+  margin: auto;
+  border: 2px solid whitesmoke;
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.4),
+    inset 0 -10px 20px rgba(255, 255, 255, 0.3);
+`;
+
 export const TopCenter = styled.div`
   position: fixed;
   top: 5%;

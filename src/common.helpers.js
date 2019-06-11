@@ -21,29 +21,39 @@ export function minutesToMilliseconds(minuets) {
 export function cutImage(
   blob,
   canvas,
-  xs,
-  ys,
-  sWidth,
-  sHeight,
-  dx,
-  dy,
-  dWidth,
-  dHeight,
+  siblingImg,
+  xs = 0,
+  ys = 0,
+  sWidth = 200,
+  sHeight = 200,
 ) {
   console.log('Canvas', canvas);
-  // const canvas = document.createElement('canvas');
   if (canvas) {
     const ctx = canvas.getContext('2d');
     const img = new Image();
-    img.height = 480;
-    img.width = 640;
-    canvas.width = 640;
-    canvas.height = 480;
+
+    canvas.width = (siblingImg && siblingImg.width) || 640;
+    canvas.height = (siblingImg && siblingImg.height) || 480;
     img.onload = () => {
-      ctx.drawImage(img, 50, 100, 200, 100, 0, 0, 200, 100);
-      // , xs, ys, sWidth, sHeight, dx, dy, dWidth, dHeight);
-      console.log('IMG size', img.width, img.height);
+      const { dLeft, dTop, dWidth, dHeight } = getCenterPosition({
+        sWidth,
+        sHeight,
+        canvasWidth: canvas.width,
+        canvasHeight: canvas.height,
+      });
+      ctx.drawImage(img, xs, ys, sWidth, sHeight, dLeft, dTop, dWidth, dHeight);
     };
     img.src = URL.createObjectURL(blob);
   }
+}
+
+function getCenterPosition({ sWidth, sHeight, canvasWidth, canvasHeight }) {
+  const getPos = (canvasSide, srcSide) =>
+    canvasSide <= srcSide ? 0 : canvasSide / 2 - srcSide / 2;
+  return {
+    dLeft: getPos(canvasWidth, sWidth),
+    dTop: getPos(canvasHeight, sHeight),
+    dWidth: canvasWidth >= sWidth ? sWidth : canvasWidth,
+    dHeight: canvasHeight >= sHeight ? sHeight : canvasHeight,
+  };
 }

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Container, BottomSpace, TopSpace } from './Result.styled';
-import { ResultContainer, Title, Img } from '../Common.styled';
+import { ResultContainer, Title, Img, Canvas } from '../Common.styled';
 import {
   runAutoPlayHelper,
   minutesToMilliseconds,
@@ -15,6 +15,7 @@ class Result extends Component {
   componentDidMount() {
     this.holdShowInfo = false;
     this.canvas = React.createRef();
+    this.img = React.createRef();
   }
   componentDidUpdate() {
     const {
@@ -35,7 +36,7 @@ class Result extends Component {
       changeStatus: toggleViewResultStatus,
     });
     if (currentPhoto) {
-      cutImage(currentPhoto, this.canvas.current);
+      cutImage(currentPhoto, this.canvas.current, this.img.current);
     }
   }
   render() {
@@ -43,14 +44,14 @@ class Result extends Component {
     return data && visible ? (
       <Container visible={visible}>
         <TopSpace>
-          <Img src={data.pic} alt="EW" />
+          <Img src={data.pic} ref={this.img} alt="EW" />
 
           {currentPhoto && (
-            <canvas
+            <Canvas
               // as="canvas"
               style={{
                 background: 'tomato',
-                // transform: 'scaleX(-1)',
+                transform: 'scaleX(-1)',
               }}
               ref={this.canvas}
             />
