@@ -10,8 +10,8 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import {
   runAutoPlay,
-  toggleSnapshotStatus,
-  toggleViewResultStatus,
+  toggleSnapshotStatusOn,
+  toggleViewResultStatusOff,
 } from '../../actions';
 import { runAutoPlayHelper, minutesToMilliseconds } from '../../common.helpers';
 import Timer from '../../components/Timer';
@@ -46,7 +46,8 @@ class Start extends Component {
       visible,
       isAutoPlay,
       snapshotDelay,
-      toggleSnapshotStatus,
+      toggleSnapshotStatusOn,
+      toggleViewResultStatusOff,
       isRunSnapshot,
     } = this.props;
     const { onSuccess } = this;
@@ -58,7 +59,8 @@ class Start extends Component {
       delay,
       isAutoSnapShot: isAutoPlay,
       changeStatus: () => {
-        toggleSnapshotStatus();
+        toggleSnapshotStatusOn();
+        toggleViewResultStatusOff();
       },
     });
   }
@@ -100,8 +102,8 @@ export default connect(
     bindActionCreators(
       {
         runAutoplay: runAutoPlay,
-        toggleSnapshotStatus,
-        toggleViewResultStatus,
+        toggleSnapshotStatusOn,
+        toggleViewResultStatusOff,
       },
       dispatch,
     ),

@@ -8,7 +8,10 @@ import {
 } from '../../common.helpers';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { toggleViewResultStatus, toggleSnapshotStatus } from '../../actions';
+import {
+  toggleViewResultStatusOn,
+  toggleSnapshotStatusOff,
+} from '../../actions';
 
 class Result extends Component {
   holdShowInfo = true;
@@ -24,7 +27,8 @@ class Result extends Component {
       isAutoPlay,
       showResultDelay,
       isRunResultView,
-      toggleViewResultStatus,
+      toggleViewResultStatusOn,
+      toggleSnapshotStatusOff,
       currentPhoto,
       facePosition,
     } = this.props;
@@ -34,9 +38,12 @@ class Result extends Component {
       holdRun: isRunResultView,
       delay: minutesToMilliseconds(showResultDelay),
       isAutoSnapShot: isAutoPlay,
-      changeStatus: toggleViewResultStatus,
+      changeStatus: () => {
+        toggleViewResultStatusOn();
+        toggleSnapshotStatusOff();
+      },
     });
-    if (currentPhoto) {
+    if (currentPhoto && facePosition) {
       const { left_angle, height, width } = facePosition;
       cutImage(
         currentPhoto,
@@ -50,15 +57,14 @@ class Result extends Component {
     }
   }
   render() {
-    const { visible, data, currentPhoto } = this.props;
+    const { visible, data, currentPhoto, facePosition } = this.props;
     return data && visible ? (
       <Container visible={visible}>
         <TopSpace>
           <Img src={data.pic} ref={this.img} alt="EW" />
 
-          {currentPhoto && (
+          {currentPhoto && facePosition && (
             <Canvas
-              // as="canvas"
               style={{
                 background: 'tomato',
                 transform: 'scaleX(-1)',
@@ -88,8 +94,8 @@ export default connect(
   dispatch =>
     bindActionCreators(
       {
-        toggleSnapshotStatus,
-        toggleViewResultStatus,
+        toggleSnapshotStatusOff,
+        toggleViewResultStatusOn,
       },
       dispatch,
     ),

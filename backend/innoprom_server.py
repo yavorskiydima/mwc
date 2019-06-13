@@ -70,16 +70,14 @@ class FaceRecognizer(object):
         rotates = [img]
         faces = [self._detector(img_rot, 1) for img_rot in rotates]
         faces = list(filter(lambda x: x[0], zip(faces, rotates)))
-        if faces:
-            shape = self._shape_predictor(faces[0][1], faces[0][0][0])
-            return np.array(self._face_rec.compute_face_descriptor(faces[0][1], shape)), faces[0][0][0]
-        return
+        if not faces:
+            raise NoFaceDetectedError()
+        shape = self._shape_predictor(faces[0][1], faces[0][0][0])
+        return np.array(self._face_rec.compute_face_descriptor(faces[0][1], shape)), faces[0][0][0]
 
 
 def recognize(img, recognizer, characters, vips):
     char_desc, face = recognizer.transform_image(img)
-    if char_desc is None:
-        raise NoFaceDetectedError()
     #vip_pers = vips.recognize(char_desc)
     #if vip_pers:
     #    return vips.chars[vip_pers], vip_pers
@@ -171,7 +169,7 @@ def photo_upload():
     try:
         img_file = upload_file(request.json['photo'], stat.get_count())
         img = misc.imread(os.path.join(UPLOAD_PHOTO, img_file))
-        max_right, max_bottom = img.shape[0], img.shape[1]
+        max_right, max_bottom = img.shape[1], img.shape[0]
         character, face, vip = recognize(img, face_recognizer, characters, vips)
         face = transform_face(face, max_right, max_bottom)
         count_rows = stat.update(characters.family[character])

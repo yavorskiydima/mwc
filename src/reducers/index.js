@@ -38,13 +38,21 @@ const runStatusInitial = {
 
 const runStatus = handleActions(
   {
-    [ACTION_TYPES.SET_STATUS_RUN_SNAPSHOT]: state => ({
+    [ACTION_TYPES.SET_STATUS_RUN_SNAPSHOT_ON]: state => ({
       ...state,
-      isRunSnapshot: !state.isRunSnapshot,
+      isRunSnapshot: true,
     }),
-    [ACTION_TYPES.SET_STATUS_RUN_VIEW_RESULT]: state => ({
+    [ACTION_TYPES.SET_STATUS_RUN_VIEW_RESULT_ON]: state => ({
       ...state,
-      isRunResultView: !state.isRunResultView,
+      isRunResultView: true,
+    }),
+    [ACTION_TYPES.SET_STATUS_RUN_SNAPSHOT_OFF]: state => ({
+      ...state,
+      isRunSnapshot: false,
+    }),
+    [ACTION_TYPES.SET_STATUS_RUN_VIEW_RESULT_OFF]: state => ({
+      ...state,
+      isRunResultView: false,
     }),
   },
   runStatusInitial,

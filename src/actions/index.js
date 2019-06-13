@@ -11,8 +11,10 @@ export const ACTION_TYPES = makeActionType([
   'ADD_PHOTO',
   'SET_SNAPSHOT_DELAY',
   'SET_SHOW_RESULT_DELAY',
-  'SET_STATUS_RUN_SNAPSHOT',
-  'SET_STATUS_RUN_VIEW_RESULT',
+  'SET_STATUS_RUN_SNAPSHOT_ON',
+  'SET_STATUS_RUN_SNAPSHOT_OFF',
+  'SET_STATUS_RUN_VIEW_RESULT_ON',
+  'SET_STATUS_RUN_VIEW_RESULT_OFF',
 ]);
 export const stopAutoPlay = createAction(ACTION_TYPES.STOP_AUTOPLAY);
 
@@ -27,9 +29,16 @@ export const setShowResultDelay = createAction(
   ACTION_TYPES.SET_SHOW_RESULT_DELAY,
 );
 
-export const toggleSnapshotStatus = createAction(
-  ACTION_TYPES.SET_STATUS_RUN_SNAPSHOT,
+export const toggleSnapshotStatusOn = createAction(
+  ACTION_TYPES.SET_STATUS_RUN_SNAPSHOT_ON,
 );
-export const toggleViewResultStatus = createAction(
-  ACTION_TYPES.SET_STATUS_RUN_VIEW_RESULT,
+export const toggleViewResultStatusOn = createAction(
+  ACTION_TYPES.SET_STATUS_RUN_VIEW_RESULT_ON,
+);
+
+export const toggleSnapshotStatusOff = createAction(
+  ACTION_TYPES.SET_STATUS_RUN_SNAPSHOT_OFF,
+);
+export const toggleViewResultStatusOff = createAction(
+  ACTION_TYPES.SET_STATUS_RUN_VIEW_RESULT_OFF,
 );

@@ -95,11 +95,14 @@ class Workspace extends Component {
         const responseId = uniqPosition !== -1 ? uniqPosition : 40;
         this.setState({
           responseId,
-          facePosition: {
-            left_angle: result.left_angle,
-            width: result.width,
-            height: result.height,
-          },
+          facePosition:
+            result.result !== 'failure'
+              ? {
+                  left_angle: result.left_angle,
+                  width: result.width,
+                  height: result.height,
+                }
+              : null,
         });
 
         let displayResult = false;
