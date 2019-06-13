@@ -75,9 +75,8 @@ class Result extends Component {
             <Canvas
               width={640}
               height={480}
-              style={{
-                background: 'tomato',
-                transform: 'scale(0.7)',
+              style={{                
+                transform: 'scaleX(-1)',
               }}
               ref={this.canvas}
             />
