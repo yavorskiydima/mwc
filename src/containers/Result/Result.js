@@ -5,6 +5,7 @@ import {
   runAutoPlayHelper,
   minutesToMilliseconds,
   cutImage,
+  drawRect,
 } from '../../common.helpers';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -45,15 +46,22 @@ class Result extends Component {
     });
     if (currentPhoto && facePosition) {
       const { left_angle, height, width } = facePosition;
-      cutImage(
-        currentPhoto,
-        this.canvas.current,
-        this.img.current,
-        left_angle[0],
-        left_angle[1],
+      drawRect(currentPhoto, this.canvas.current, {
+        top: left_angle[0],
+        left: left_angle[1],
         width,
         height,
-      );
+        lineWidth: 4,
+      });
+      // cutImage(
+      //   currentPhoto,
+      //   this.canvas.current,
+      //   this.img.current,
+      //   left_angle[0],
+      //   left_angle[1],
+      //   width,
+      //   height,
+      // );
     }
   }
   render() {
@@ -65,9 +73,11 @@ class Result extends Component {
 
           {currentPhoto && facePosition && (
             <Canvas
+              width={640}
+              height={480}
               style={{
                 background: 'tomato',
-                transform: 'scaleX(-1)',
+                transform: 'scale(0.7)',
               }}
               ref={this.canvas}
             />

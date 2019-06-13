@@ -27,7 +27,6 @@ export function cutImage(
   sWidth = 200,
   sHeight = 200,
 ) {
-  console.log('Canvas', canvas);
   if (canvas) {
     const ctx = canvas.getContext('2d');
     const img = new Image();
@@ -45,6 +44,33 @@ export function cutImage(
     };
     img.src = URL.createObjectURL(blob);
   }
+}
+
+export function drawRect(
+  blob,
+  canvas,
+  { left, top, width, height, strokeStyle = 'green', lineWidth = 2 },
+) {
+  if (!canvas) {
+    return;
+  }
+  const ctx = canvas.getContext('2d');
+
+  const img = new Image();
+
+  // ctx.setTransform(1, 0, 0, 1, 0, 0);
+  // ctx.scale(1, -1);
+
+  img.onload = () => {
+    ctx.lineWidth = lineWidth;
+    ctx.strokeStyle = strokeStyle;
+    ctx.drawImage(img, 0, 0);
+
+    ctx.beginPath();
+    ctx.rect(top, left, width, height);
+    ctx.stroke();
+  };
+  img.src = URL.createObjectURL(blob);
 }
 
 function getCenterPosition({ sWidth, sHeight, canvasWidth, canvasHeight }) {
