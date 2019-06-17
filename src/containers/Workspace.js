@@ -1,13 +1,16 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
 
-import { Container } from "./Components";
-import Start from "./Start/Start";
-import { RestApi } from "../services/rest-service";
-import Result from "./Result/Result";
-import LoadingSlider from "./LoadingSlider/LoadingSlider";
-import Settings from "./Settings/Settings";
-import data from "../test/list";
-import { TopCenter, Title } from "./Common.styled";
+import { Container } from './Components';
+import Start from './Start/Start';
+import { RestApi } from '../services/rest-service';
+import Result from './Result/Result';
+import LoadingSlider from './LoadingSlider/LoadingSlider';
+import Settings from './Settings/Settings';
+import data from '../test/list';
+import { TopCenter, Title } from './Common.styled';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { addPhoto } from '../actions';
 
 class Workspace extends Component {
   state = {
@@ -17,15 +20,15 @@ class Workspace extends Component {
     pos: data.map((item, index) => {
       const position =
         index === 0
-          ? "left"
+          ? 'left'
           : index === 1
-          ? "front"
+          ? 'front'
           : index === 2
-          ? "right"
-          : "back";
+          ? 'right'
+          : 'back';
       return {
         ...item,
-        position: position
+        position: position,
       };
     }),
     nextLeftPos: 1,
@@ -37,9 +40,15 @@ class Workspace extends Component {
     settings: false,
     devices: [],
     selectedDevices: 0,
-    statusSlider: false
+    statusSlider: false,
+    facePosition: {
+      left_angle: [],
+      height: 0,
+      width: 0,
+    },
   };
   videoInstance;
+  photoInBase64 = '';
   constructor(props) {
     super(props);
     this.api = new RestApi();
@@ -54,7 +63,7 @@ class Workspace extends Component {
         devices,
         settings: true,
         selectedDevices:
-          selectedDevices == 0 ? currentDeiviceId : selectedDevices
+          selectedDevices == 0 ? currentDeiviceId : selectedDevices,
       });
     }
     this.setState({ settings: false });
@@ -74,16 +83,27 @@ class Workspace extends Component {
       // в video приходит экземпляр класса VideoService
       if (!video.error) {
         this.setState({ statusSlider: true });
-
+        // получение фотографии
         const photo = await video.getPhoto();
+        this.photoInBase64 = photo;
         const result = await this.api.sendPhoto(photo);
         console.log({ result });
         const uniqPosition = this.state.pos.findIndex(
-          i => i.key === result.uniq_key
+          i => i.key === result.uniq_key,
         );
 
         const responseId = uniqPosition !== -1 ? uniqPosition : 40;
-        this.setState({ responseId });
+        this.setState({
+          responseId,
+          facePosition:
+            result.result !== 'failure'
+              ? {
+                  left_angle: result.left_angle,
+                  width: result.width,
+                  height: result.height,
+                }
+              : null,
+        });
 
         let displayResult = false;
 
@@ -92,17 +112,17 @@ class Workspace extends Component {
             pos: state.pos.map((item, index) => {
               const position =
                 index === state.nextLeftPos
-                  ? "left"
+                  ? 'left'
                   : index === state.nextFrontPos
-                  ? "front"
+                  ? 'front'
                   : index === state.nextRightPos
-                  ? "right"
-                  : "back";
+                  ? 'right'
+                  : 'back';
               return { ...item, position };
             }),
             nextLeftPos: ++state.nextLeftPos % state.pos.length,
             nextFrontPos: ++state.nextFrontPos % state.pos.length,
-            nextRightPos: ++state.nextRightPos % state.pos.length
+            nextRightPos: ++state.nextRightPos % state.pos.length,
           }));
           if (displayResult && this.state.responseId !== null) {
             clearInterval(this.state.intervalId);
@@ -114,12 +134,12 @@ class Workspace extends Component {
         this.setState({
           openMenu: false,
           openLoader: true,
-          intervalId: interval
+          intervalId: interval,
         });
         return;
       }
-      console.log("Видео поток не запущен!!!");
-    } else console.log("Двойное нажатие кнопки");
+      console.log('Видео поток не запущен!!!');
+    } else console.log('Двойное нажатие кнопки');
   };
 
   speedLoader = () => {
@@ -136,17 +156,17 @@ class Workspace extends Component {
         pos: state.pos.map((item, index) => {
           const position =
             index === state.nextLeftPos
-              ? "left"
+              ? 'left'
               : index === state.nextFrontPos
-              ? "front"
+              ? 'front'
               : index === state.nextRightPos
-              ? "right"
-              : "back";
+              ? 'right'
+              : 'back';
           return { ...item, position };
         }),
         nextLeftPos: ++state.nextLeftPos % state.pos.length,
         nextFrontPos: ++state.nextFrontPos % state.pos.length,
-        nextRightPos: ++state.nextRightPos % state.pos.length
+        nextRightPos: ++state.nextRightPos % state.pos.length,
       }));
       if (this.state.nextLeftPos === this.state.responseId) {
         clearInterval(this.state.intervalId);
@@ -156,7 +176,7 @@ class Workspace extends Component {
 
     this.setState({
       intervalId: interval,
-      delay: delay
+      delay: delay,
     });
   };
 
@@ -166,7 +186,7 @@ class Workspace extends Component {
       openResult: false,
       responseId: null,
       delay: 700,
-      statusSlider: false
+      statusSlider: false,
     });
   };
   openResult = () => {
@@ -174,9 +194,9 @@ class Workspace extends Component {
   };
   getVideoInstance = video => {
     this.videoInstance = video;
-    const firstDeivice = this.videoInstance.getFirstVideoDevice();
+    const firstDevice = this.videoInstance.getFirstVideoDevice();
     this.setState({
-      selectedDevices: firstDeivice
+      selectedDevices: firstDevice,
     });
   };
   render() {
@@ -188,7 +208,8 @@ class Workspace extends Component {
       delay,
       devices,
       settings,
-      selectedDevices
+      selectedDevices,
+      facePosition,
     } = this.state;
 
     return (
@@ -216,13 +237,24 @@ class Workspace extends Component {
           delay={delay}
         />
         <Result
+          currentPhoto={this.photoInBase64}
           visible={openResult}
           close={this.openMenu}
           data={data[responseId]}
+          facePosition={facePosition}
         />
       </Container>
     );
   }
 }
 
-export default Workspace;
+export default connect(
+  state => {},
+  dispatch =>
+    bindActionCreators(
+      {
+        addPhoto,
+      },
+      dispatch,
+    ),
+)(Workspace);

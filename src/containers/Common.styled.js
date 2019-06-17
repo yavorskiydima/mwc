@@ -10,7 +10,7 @@ export const CommonContainer = styled.div`
   display: flex;
   z-index: 4;
   width: 60%;
-  height: 60%;
+  height: 70%;
   top: 20%;
   left: 20%;
   border: 2px solid whitesmoke;
@@ -63,22 +63,35 @@ export const RigthSpace = styled.div`
   background: rgba(0, 0, 0, 0.6);
 `;
 export const Title = styled.h1`
-  font-size: 2rem;
+  font-size: 2.2rem;
   text-shadow: 0px 0px 20px rgba(255, 255, 255, 0.8);
-  text-align: ${({align}) => align || 'none'};
+  text-align: ${({ align }) => align || 'none'};
 `;
 export const ResultContainer = styled.div`
   height: 55%;
-  padding: 15px;  
+  padding: 15px;
   & > p {
-    font-size: 1.2rem;
-    line-height: 2rem;
-  }  
+    font-size: 1.8rem;
+    line-height: 1.8rem;
+    margin: 0 0 .6em;
+  }
 `;
+
 export const Img = styled.img`
   margin: auto;
   height: 80%;
+  border: 2px solid whitesmoke;
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.4),
+    inset 0 -10px 20px rgba(255, 255, 255, 0.3);
 `;
+export const Canvas = styled.canvas`
+  margin: auto;
+  height: 80%;
+  border: 2px solid whitesmoke;
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.4),
+    inset 0 -10px 20px rgba(255, 255, 255, 0.3);
+`;
+
 export const TopCenter = styled.div`
   position: fixed;
   top: 5%;
@@ -86,7 +99,7 @@ export const TopCenter = styled.div`
   & > h1 {
     font-size: 3.2rem;
     & > span {
-      color: #30d5c8
+      color: #30d5c8;
     }
   }
-`
+`;

@@ -1,41 +1,111 @@
 import React, { Component } from 'react';
-import { Container } from './Result.styled';
+import { Container, BottomSpace, TopSpace } from './Result.styled';
+import { ResultContainer, Title, Img, Canvas } from '../Common.styled';
 import {
-  LeftSpace,
-  RigthSpace,
-  ResultContainer,
-  Title,
-  Img,
-} from '../Common.styled';
-import StyledButton from '../../components/Button';
+  runAutoPlayHelper,
+  minutesToMilliseconds,
+  cutImage,
+  drawRect,
+} from '../../common.helpers';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import {
+  toggleViewResultStatusOn,
+  toggleSnapshotStatusOff,
+} from '../../actions';
 
 class Result extends Component {
+  holdShowInfo = true;
+  componentDidMount() {
+    this.holdShowInfo = false;
+    this.canvas = React.createRef();
+    this.img = React.createRef();
+  }
+  componentDidUpdate() {
+    const {
+      visible,
+      close,
+      isAutoPlay,
+      showResultDelay,
+      isRunResultView,
+      toggleViewResultStatusOn,
+      toggleSnapshotStatusOff,
+      currentPhoto,
+      facePosition,
+    } = this.props;
+
+    runAutoPlayHelper(close, {
+      visible,
+      holdRun: isRunResultView,
+      delay: minutesToMilliseconds(showResultDelay),
+      isAutoSnapShot: isAutoPlay,
+      changeStatus: () => {
+        toggleViewResultStatusOn();
+        toggleSnapshotStatusOff();
+      },
+    });
+    if (currentPhoto && facePosition) {
+      const { left_angle, height, width } = facePosition;
+      drawRect(currentPhoto, this.canvas.current, {
+        top: left_angle[0],
+        left: left_angle[1],
+        width,
+        height,
+        lineWidth: 4,
+      });
+      // cutImage(
+      //   currentPhoto,
+      //   this.canvas.current,
+      //   this.img.current,
+      //   left_angle[0],
+      //   left_angle[1],
+      //   width,
+      //   height,
+      // );
+    }
+  }
   render() {
-    const { visible, close, data } = this.props;
+    const { visible, data, currentPhoto, facePosition } = this.props;
     return data && visible ? (
       <Container visible={visible}>
-        <LeftSpace>
-          <Img src={data.pic} alt="EW" />
-        </LeftSpace>
-        <RigthSpace>
+        <TopSpace>
+          <Img src={data.pic} ref={this.img} alt="EW" />
+
+          {currentPhoto && facePosition && (
+            <Canvas
+              width={640}
+              height={480}
+              style={{                
+                transform: 'scaleX(-1)',
+              }}
+              ref={this.canvas}
+            />
+          )}
+        </TopSpace>
+        <BottomSpace>
           <ResultContainer>
             <Title>{data.name}</Title>
             <p>{data.date}</p>
             <p>{data.description}</p>
           </ResultContainer>
-          <StyledButton
-            invert
-            firstColor="#8f1e59"
-            secondColor="#66153f"
-            backIcon
-            onClick={close}
-            text="return back"
-            success={false}
-          />
-        </RigthSpace>
+        </BottomSpace>
       </Container>
     ) : null;
   }
 }
 
-export default Result;
+export default connect(
+  state => ({
+    isAutoPlay: state.autoplay.isAutoPlay,
+    showResultDelay: state.delaySettings.showResultDelay,
+    isRunResultView: state.runStatus.isRunResultView,
+  }),
+  dispatch =>
+    bindActionCreators(
+      {
+        toggleSnapshotStatusOff,
+        toggleViewResultStatusOn,
+      },
+      dispatch,
+    ),
+)(Result);

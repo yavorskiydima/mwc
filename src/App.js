@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 import Workspace from './containers/Workspace';
 import { Space } from './components/styled-components';
+import { Provider } from 'react-redux';
+import store from './store';
 
 const Wrapper = styled.div`
   position: fixed;
@@ -26,12 +28,12 @@ const Wrapper = styled.div`
 class App extends Component {
   render() {
     return (
-      <>
+      <Provider store={store}>
         <Workspace />
         <Wrapper>
           <Space />
         </Wrapper>
-      </>
+      </Provider>
     );
   }
 }
